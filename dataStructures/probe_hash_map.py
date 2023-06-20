@@ -1,4 +1,4 @@
-from hash_map_base import HashMapBase
+from HashMapBase import HashMapBase
 
 
 class ProbeHashMap(HashMapBase):
