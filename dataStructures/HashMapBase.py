@@ -1,8 +1,9 @@
+from abc import ABC
 from random import randrange
+from map_base import MapBase
 
-import MapBase
 
-class HashMapBase(MapBase.MapBase):
+class HashMapBase(MapBase, ABC):
     """
     Classe astratta di base per la mappa che utilizza una tabella Hash con compressione MAD
     """
