@@ -123,7 +123,7 @@ class LinkedBinaryTree(BinaryTree):
             count += 1
         return count
 
-    def _add_root(self, e):
+    def add_root(self, e):
         """
         Posizione l'elemento 'e' alla radice di un albero vuoto e torna alla nuova Position
 
@@ -134,7 +134,7 @@ class LinkedBinaryTree(BinaryTree):
         self._root = self._Node(e)
         return self._make_position(self._root)
 
-    def _add_left(self, p, e):
+    def add_left(self, p, e):
         """
         Crea un nuovo figlio sinistro per la posizione 'p' cui memorizza 'e',
         restituisce la Position del nuovo nodo
@@ -147,7 +147,7 @@ class LinkedBinaryTree(BinaryTree):
         node._left = self._Node(e, node)
         return self._make_position(node._left)
 
-    def _add_right(self, p, e):
+    def add_right(self, p, e):
         """
         Crea un nuovo figlio destro per la posizione 'p' cui memorizza 'e',
         restituisce la Position del nuovo nodo
@@ -194,7 +194,7 @@ class LinkedBinaryTree(BinaryTree):
         node._parent = node
         return node._element
 
-    def _attach(self, p, t1, t2):
+    def attach(self, p, t1, t2):
         """
         Collega gli alberi t1 e t2 come sottoalberi sinistro e destro della foglia p
         """
