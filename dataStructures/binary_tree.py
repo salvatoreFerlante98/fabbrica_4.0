@@ -4,6 +4,14 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
+def _find_minimum(node):
+    current = node
+    while current.left is not None:
+        current = current.left
+    return current
+
+
 class BinaryTree:
     def __init__(self):
         self.root = None
@@ -55,17 +63,11 @@ class BinaryTree:
             elif node.right is None:
                 return node.left
             else:
-                successor = self._find_minimum(node.right)
+                successor = _find_minimum(node.right)
                 node.value = successor.value
                 node.right = self._delete_recursive(node.right, successor.value)
 
         return node
-
-    def _find_minimum(self, node):
-        current = node
-        while current.left is not None:
-            current = current.left
-        return current
 
     def inorder_traversal(self):
         result = []
