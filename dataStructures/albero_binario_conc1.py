@@ -214,3 +214,12 @@ class LinkedBinaryTree(BinaryTree):
             node._right = t2._root
             t2._root = None  # imposta l'istanza di t2 come vuota
             t2._size = 0
+
+    def _subtree_preoreder(self, p):
+        """
+        Restituisce una lista contenente la preorder di tutte le foglie del sotto-albero di 'p'
+        """
+        yield p
+        for c in self.children(p):
+            for other in self._subtree_preoreder(c):
+                yield other
