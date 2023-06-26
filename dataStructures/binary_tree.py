@@ -4,6 +4,9 @@ class TreeNode:
         self.left = None
         self.right = None
 
+    def get_value(self):
+        return self.value
+
 
 def _find_minimum(node):
     current = node
