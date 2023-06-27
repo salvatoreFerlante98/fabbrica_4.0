@@ -25,6 +25,12 @@ class Macchinario:
     def get_isola(self):
         return self.isola
 
+    def accendi_macchinario(self):
+        self.stato = 'On'
+
+    def spegni_macchinario(self):
+        self.stato = 'Off'
+
     def lavora(self, magazzino, consumo):
         if self.stato == 'On' and self.stato != 'Lavorando' and magazzino.usa_pezzo(self.isola, consumo) is True:
             self.stato = 'Lavorando'

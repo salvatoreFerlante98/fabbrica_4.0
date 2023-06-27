@@ -1,18 +1,62 @@
+from random import randint
+
+from controllers.daos.macchinario import Macchinario
 from dataStructures.coda_conc_circ import CircularQueue
 
 
 class Isola:
 
     def __init__(self, nome, consumo):
-        self.nome = nome
-        self.consumo = consumo
+        self._nome = nome
+        self._consumo = consumo
+        self._macchinari = self._carica_macchinari()
 
     def get_nome(self):
-        return self.nome
+        return self._nome
 
     def get_consumo(self):
-        return self.consumo
+        return self._consumo
 
-    def carica_macchinari(self):
+    def _carica_macchinari(self):
         macchinari = CircularQueue()
+        t_lavorazione = randint(5, 10)
+        for i in range(0, 4):
+            macchinari.enqueue(Macchinario(i, 'Off', t_lavorazione, self._nome))
+        return macchinari
 
+    def gestione_macchinari(self, richiesta):
+        macchinari_on = self._macchinari_accesi()
+        if macchinari_on < richiesta:
+            self._accendi_macchinari(macchinari_on - richiesta)
+        elif macchinari_on > richiesta:
+            self._spegni_macchinari(richiesta - macchinari_on)
+
+    def _macchinari_accesi(self):
+        macchinari_on = 0
+        for macchinario in self._macchinari:
+            if macchinario.get_stato() == 'On':
+                macchinari_on += 1
+
+        return macchinari_on
+
+    def _accendi_macchinari(self, num):
+        i = 0
+        while i < num:
+            macchinario = self._macchinari.first()
+            stato = macchinario.get_stato()
+            if stato == 'Off':
+                macchinario.accendi_macchinario()
+                self._macchinari.rotate()
+                i += 1
+            self._macchinari.rotate()
+
+    def _spegni_macchinari(self, num):
+        i = 0
+        while i < num:
+            macchinario = self._macchinari.first()
+            stato = macchinario.get_stato()
+            if stato == 'On':
+                macchinario.spegni_macchinario()
+                self._macchinari.rotate()
+                i += 1
+            self._macchinari.rotate()
