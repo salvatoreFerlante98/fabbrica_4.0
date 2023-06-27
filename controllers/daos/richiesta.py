@@ -11,14 +11,14 @@ class Richiesta:
         return "Richiesta: " + str(self.id_richiesta) + " - " + str(self.tipo) + " - " + str(self.data) + " - " + str(
             self.quantita) + "\n"
 
-    def getId(self):
+    def get_id(self):
         return self.id_richiesta
 
-    def getTipo(self):
+    def get_tipo(self):
         return self.tipo
 
-    def getData(self):
+    def get_data(self):
         return self.data
 
-    def getQuantita(self):
+    def get_quantita(self):
         return self.quantita

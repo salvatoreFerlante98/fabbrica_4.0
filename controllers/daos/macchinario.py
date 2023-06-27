@@ -13,20 +13,20 @@ class Macchinario:
     def __lt__(self, other):
         return self.tempo_lavorazione < other.tempo_lavorazione
 
-    def getId(self):
+    def get_id(self):
         return self.id_macchinario
 
-    def getStato(self):
+    def get_stato(self):
         return self.stato
 
-    def getTempoLavorazione(self):
+    def get_tempo_lavorazione(self):
         return self.tempo_lavorazione
 
-    def getIsola(self):
+    def get_isola(self):
         return self.isola
 
     def lavora(self, magazzino, consumo):
-        if self.stato == 'On' and self.stato != 'Lavorando' and magazzino.usaPezzo(self.isola, consumo) is True:
+        if self.stato == 'On' and self.stato != 'Lavorando' and magazzino.usa_pezzo(self.isola, consumo) is True:
             self.stato = 'Lavorando'
             sleep(self.tempo_lavorazione)
             self.stato = 'On'

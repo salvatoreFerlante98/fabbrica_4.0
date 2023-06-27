@@ -4,8 +4,8 @@ class Isola:
         self.nome = nome
         self.consumo = consumo
 
-    def getNome(self):
+    def get_nome(self):
         return self.nome
 
-    def getConsumo(self):
+    def get_consumo(self):
         return self.consumo
