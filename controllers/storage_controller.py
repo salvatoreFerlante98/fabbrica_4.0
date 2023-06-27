@@ -8,6 +8,13 @@ class Storage:
     def __init__(self):
         self.richieste = ArrayQueue()
         self.storage_map = UnsortedTableMap()
+        self.storage_map['plastica'] = 0
+        self.storage_map['metallo'] = 0
+        self.storage_map['cartucce'] = 0
+        self.storage_map['punte'] = 0
+        self.storage_map['tappi'] = 0
+        self.storage_map['astucci'] = 0
+        self.storage_map['penne'] = 0
         self.id = 0
 
     def map_is_empty(self):
