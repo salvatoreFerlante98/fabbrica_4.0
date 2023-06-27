@@ -22,8 +22,7 @@ class IslandsController:
 
             self.isole.add_last(self.macchinari)
 
-    def gestisci_macchinari(self):
-        if Storage.usa_pezzo():
-            Macchinario.lavora(self.macchinari.first(), Isola.get_consumo(self.macchinari.first().tipo))
-    def richiedi_rifornimento(self, quantita):
+    def gestisci_richiesta(self):
+
+
 

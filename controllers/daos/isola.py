@@ -1,3 +1,6 @@
+from dataStructures.coda_conc_circ import CircularQueue
+
+
 class Isola:
 
     def __init__(self, nome, consumo):
@@ -9,3 +12,7 @@ class Isola:
 
     def get_consumo(self):
         return self.consumo
+
+    def carica_macchinari(self):
+        macchinari = CircularQueue()
+
