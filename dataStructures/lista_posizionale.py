@@ -3,7 +3,7 @@ from lista_doppia_conc import _DoublyLinkedBase
 
 class PositionalList(_DoublyLinkedBase):
     """
-    Contenitore sequenziale di elememti che consente l'accesso posizionale.
+    Contenitore sequenziale di elementi che consente l'accesso posizionale.
     """
     # ---------------------------------------- classe Position innestata -----------------------------------------------
     class Position:
@@ -39,7 +39,7 @@ class PositionalList(_DoublyLinkedBase):
     # ---------------------------------------- metodi di utilità -------------------------------------------------------
     def _validate(self, p):
         """
-        restituisci la posizione del nodo o solleva l'errore appropriato se non valido.
+        Restituisce la posizione del nodo o solleva l'errore appropriato se non valido.
         """
         if not isinstance(p, self.Position):
             raise TypeError('p deve essere il tipo Position')
@@ -73,7 +73,7 @@ class PositionalList(_DoublyLinkedBase):
 
     def before(self, p):
         """
-        Restituisce la Position prima dell aPosition p (None se p è la prima posizione).
+        Restituisce la Position prima della Position p (None se p è la prima posizione).
         """
         node = self._validate(p)
         return self._make_position(node._prev)
