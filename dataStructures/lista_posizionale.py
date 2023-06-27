@@ -34,7 +34,7 @@ class PositionalList(_DoublyLinkedBase):
             """
             Restituisce True se 'other' non rappresenta la stessa posizione.
             """
-            return not (self == other)
+            return self != other
 
     # ---------------------------------------- metodi di utilità -------------------------------------------------------
     def _validate(self, p):
@@ -93,6 +93,15 @@ class PositionalList(_DoublyLinkedBase):
         while cursor is not None:
             yield cursor.element()
             cursor = self.after(cursor)
+
+    def __getitem__(self, item):
+        """
+        Restituisce l'elemento nella Position item.
+        """
+        cursor = self.first()
+        for i in range(item):
+            cursor = self.after(cursor)
+        return cursor.element()
 
     # ------------------------------------------------- mutuatori ------------------------------------------------------
     # override la versione ereditata per restituire Position, anziché Node
