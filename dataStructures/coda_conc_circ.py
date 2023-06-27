@@ -84,3 +84,18 @@ class CircularQueue:
         """
         if self._size > 0:
             self._tail = self._tail._next
+
+    def __iter__(self):
+        """
+        Returns an iterator for the CircularQueue.
+        """
+        if self.is_empty():
+            return iter([])  # Return an empty iterator
+
+        start = self._tail._next
+        current = start
+        while True:
+            yield current._element
+            current = current._next
+            if current is start:
+                break
