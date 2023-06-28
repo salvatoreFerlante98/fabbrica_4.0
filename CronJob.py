@@ -11,11 +11,11 @@ class Cronjob:
         self._richiesta_penne = 1000
 
     @staticmethod
-    def check_status_and_create_request(magazzino, risorsa, penne_da_produrre):
+    def check_status_and_create_request(magazzino, consumo, risorsa, penne_da_produrre):
         n_macchinari = round(
-            (magazzino / penne_da_produrre) * 4
+            (magazzino / penne_da_produrre) * 40
         )
-        while (risorsa < (magazzino * n_macchinari)) or (n_macchinari > 0):
+        while (risorsa < (consumo * n_macchinari)) or (n_macchinari == 0):
             n_macchinari -= 1
         if n_macchinari > 0:
             return n_macchinari
@@ -31,23 +31,23 @@ class Cronjob:
         penne_da_produrre = self._richiesta_penne - self._storages.get_magazzino('penne')
 
         n_macchinari = self.check_status_and_create_request(self._storages.get_magazzino('punte'),
-                                                            self._storages.get_magazzino('metallo'), penne_da_produrre)
+                                                            self._islands.get_consume('punte'), self._storages.get_magazzino('metallo'), penne_da_produrre)
         if n_macchinari > 0:
             self._islands.crea_richiesta('punte', n_macchinari)
 
         n_macchinari = self.check_status_and_create_request(self._storages.get_magazzino('astucci'),
-                                                            self._storages.get_magazzino('plastica'), penne_da_produrre)
+                                                            self._islands.get_consume('astucci'), self._storages.get_magazzino('plastica'), penne_da_produrre)
         if n_macchinari > 0:
             self._islands.crea_richiesta('astucci', n_macchinari)
 
         n_macchinari = self.check_status_and_create_request(self._storages.get_magazzino('tappi'),
-                                                            self._storages.get_magazzino('plastica'), penne_da_produrre)
+                                                            self._islands.get_consume('tappi'), self._storages.get_magazzino('plastica'), penne_da_produrre)
         if n_macchinari > 0:
             self._islands.crea_richiesta('tappi', n_macchinari)
 
         n_macchinari = round(
             (self._storages.get_magazzino('penne') / (
-                    self._richiesta_penne - self._storages.get_magazzino('penne'))) * 4
+                    self._richiesta_penne - self._storages.get_magazzino('penne'))) * 40
         )
         while (self._storages.get_magazzino('punte') < (
                 1 * n_macchinari)) and (

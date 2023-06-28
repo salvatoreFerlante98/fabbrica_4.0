@@ -28,5 +28,6 @@ class IslandsController:
             isola.gestione_macchinari(richiesta)
             num_richieste -= 1
 
-    def get_island_consume(self, tipo):
-        return self.isole[tipo].get_consumo
+    def get_consume(self, tipo):
+        isola = self.isole[tipo]
+        return isola.get_consumo()
