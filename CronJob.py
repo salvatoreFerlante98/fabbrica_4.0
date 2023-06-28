@@ -50,17 +50,18 @@ class Cronjob:
                     self._richiesta_penne - self._storages.get_magazzino('penne'))) * 4
         )
         while (self._storages.get_magazzino('punte') < (
-                self._islands.get_island_consume('astucci') * n_macchinari)) and (
+                1 * n_macchinari)) and (
                 self._storages.get_magazzino('tappi') < (
-                self._islands.get_island_consume('astucci') * n_macchinari)) and (
+                1 * n_macchinari)) and (
                 self._storages.get_magazzino('astucci') < (
-                self._islands.get_island_consume('astucci') * n_macchinari)) or (n_macchinari > 0):
+                1 * n_macchinari)) or (n_macchinari > 0):
             n_macchinari -= 1
         if n_macchinari > 0:
             self._islands.crea_richiesta('penne', n_macchinari)
 
 
-schedule.every(1).seconds.do(Cronjob.my_task)
+cronjob = Cronjob()
+schedule.every(1).seconds.do(cronjob.my_task)  # Use the method from the cronjob instance
 
 # Run the scheduler
 while True:

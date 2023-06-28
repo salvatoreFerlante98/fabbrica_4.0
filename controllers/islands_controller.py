@@ -2,7 +2,7 @@ from random import randint
 from controllers.daos.richiesta import Richiesta
 from dataStructures.lista_posizionale import PositionalList
 from dataStructures.coda_conc import LinkedQueue
-from daos.isola import Isola
+from controllers.daos.isola import Isola
 
 
 class IslandsController:
