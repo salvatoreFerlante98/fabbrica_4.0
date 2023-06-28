@@ -1,12 +1,12 @@
 from controllers.daos.richiesta import Richiesta
 from dataStructures.UnsortedTableMap import UnsortedTableMap
-from dataStructures.codaFIFO import ArrayQueue
+from dataStructures.heap_priority_queue import HeapPriorityQueue
 
 
 class Storage:
 
     def __init__(self):
-        self.richieste = ArrayQueue()
+        self.richieste = HeapPriorityQueue()
         self.storage_map = UnsortedTableMap()
         self.storage_map['plastica'] = 0
         self.storage_map['metallo'] = 0
@@ -20,20 +20,18 @@ class Storage:
     def map_is_empty(self):
         return len(self.richieste) == 0
 
-    def crea_richiesta(self, tipo, data, quantita):
+    def crea_richiesta(self, tipo):
+        priorita = self.storage_map[tipo]
         self.id += 1
-        richiesta = Richiesta(self.id, tipo, data, quantita)
-        self.richieste.enqueue(richiesta)
-        return richiesta
+        self.richieste.add(priorita, Richiesta(self.id, tipo, 100))
 
     def esegui_richiesta(self):
         if self.richieste.is_empty():
             return False
         else:
-            richiesta = self.richieste.first()
+            richiesta = self.richieste.remove_min()
             quantita = self.storage_map[richiesta.get_tipo()] + richiesta.get_quantita()
             self.storage_map[richiesta.get_tipo()] = quantita
-            self.richieste.dequeue()
             return True
 
     def usa_pezzo(self, tipo, quantita):
