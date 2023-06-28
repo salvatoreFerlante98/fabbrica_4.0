@@ -18,7 +18,7 @@ class _DoublyLinkedBase:
 
     def __init__(self):
         """
-        Crea una listra vuota.
+        Crea una lista vuota.
         """
         self._header = self._Node(None, None, None)
         self._trailer = self._Node(None, None, None)
