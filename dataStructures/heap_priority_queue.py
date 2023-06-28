@@ -49,7 +49,7 @@ class HeapPriorityQueue(PriorityQueueBase):
         Spostamento item dal basso verso l'alto (dalla fine all'inizio)
         """
         parent = self._parent(j)
-        if j > 0 and self._data[j] > self._data[parent]:
+        if j > 0 and self._data[j] < self._data[parent]:
             self.swap(j, parent)
             self._uphead(parent)  # prosegue nella posizione del genitore di j (dove ora c'è j)
 
@@ -91,9 +91,9 @@ class HeapPriorityQueue(PriorityQueueBase):
         self._data.append(self._Item(key, value))
         self._uphead(len(self._data) - 1)  # se l'item ha priorità superiore lo fa "risalire" all'interno della coda
 
-    def max(self):
+    def min(self):
         """
-        Restituisce l'elemento (item) che ha priorità massima nella coda (cioè chiave massima)
+        Restituisce l'elemento (item) che ha priorità massima nella coda (cioè chiave minima)
 
         Solleva L'eccezzione Empty se la coda è vuota
         """
@@ -102,7 +102,7 @@ class HeapPriorityQueue(PriorityQueueBase):
         item = self._data[0]
         return (item._key, item._value)
 
-    def remove_max(self):
+    def remove_min(self):
         """
         Restituisce e rimuove l'item con priorità massima, cioè situato nella prima posizione della coda
 
