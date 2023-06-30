@@ -1,4 +1,4 @@
-from albero_binario import BinaryTree
+from dataStructures.albero_binario import BinaryTree
 
 
 class LinkedBinaryTree(BinaryTree):
@@ -200,7 +200,7 @@ class LinkedBinaryTree(BinaryTree):
         """
         node = self._validate(p)
         if not self.is_leaf(p): raise ValueError('p deve essere una foglia')
-        if not type(self) is type(t1) is type(t2):
+        if type(self) is not type(t1) is not type(t2):
             raise TypeError('gli alberi devono essere dello stesso tipo')
 
         self._size += len(t1) + len(t2)
@@ -215,6 +215,14 @@ class LinkedBinaryTree(BinaryTree):
             t2._root = None  # imposta l'istanza di t2 come vuota
             t2._size = 0
 
+    def preorder(self):
+        """
+        Genera un iterazione preordinata delle posizioni dell'albero
+        """
+        if not self.is_empty():
+            for p in self._subtree_preoreder(self.root()):
+                yield p
+
     def _subtree_preoreder(self, p):
         """
         Restituisce una lista contenente la preorder di tutte le foglie del sotto-albero di 'p'
@@ -223,3 +231,40 @@ class LinkedBinaryTree(BinaryTree):
         for c in self.children(p):
             for other in self._subtree_preoreder(c):
                 yield other
+
+    def positions(self):
+        """
+        Restituisce un contenitore iterabile con tutte le posizioni dell'albero.
+        """
+        return self.preorder()
+
+    def __iter__(self):
+        """
+        Restituisce un iteratore che scandisce tutti gli elementi dell'albero.
+        """
+        for p in self.positions():
+            yield p.element()
+
+    def search(self, value):
+        """
+        Cerca un valore nell'albero e restituisce la posizione del primo nodo trovato con quel valore.
+        Se il valore non è presente nell'albero, restituisce None.
+        """
+
+        def _subtree_search(p, value):
+            """
+            Funzione ricorsiva per cercare un valore in un sottoalbero radicato in 'p'.
+            """
+            if p.element() == value:
+                return p
+            for c in self.children(p):
+                result = _subtree_search(c, value)
+                if result is not None:
+                    return result
+            return None
+
+        if not self.is_empty():
+            p = self.root()
+            return _subtree_search(p, value)
+        else:
+            return None

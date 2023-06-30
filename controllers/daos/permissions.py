@@ -1,18 +1,15 @@
-from dataStructures.Tree import Tree
+from dataStructures.albero_binario_conc1 import LinkedBinaryTree
 
 
 class Permissions:
 
     def __init__(self):
-        self.__permission = Tree("admin")
-        self.__permission + "responsabile_tecnico"
-        self.__permission + "responsabile_magazzino"
-        self.__permission.addSubchild("responsabile_tecnico", "isola_punte")
-        self.__permission.addSubchild("responsabile_tecnico", "isola_astucci")
-        self.__permission.addSubchild("responsabile_tecnico", "isola_penne")
-        self.__permission.addSubchild("responsabile_tecnico", "isola_tappi")
-        self.__permission.addSubchild("responsabile_magazzino", "magazziniere")
-        self.__permission.addSubchild("responsabile_magazzino", "spedizioniere")
+        self.__permission = LinkedBinaryTree()
+        self.__permission.add_root('admin')
+        self.__permission.add_left('admin', 'responsabile_tecnico')
+        self.__permission.add_right('admin', 'centro_logistico')
+        self.__permission.add_left('centro logistico', 'centro_logistico ufficio')
+        self.__permission.add_right('centro logistico', 'centro_logistico magazziniere')
 
     def get_permission(self, role):
         return self.__permission.search(role)

@@ -1,5 +1,5 @@
 from tkinter import *
-
+from Services.IslandsService import IslandsService
 from controllers.userController import UserController
 
 
@@ -27,12 +27,20 @@ class UserService:
             user = self.user_cont[username1]
             if self.user_cont.login(username1, password1):
                 login_sucess()
-                #TODO: Passare il ruolo dell'utente al servizio madre
+                role = str(user.get_role())
+                if role == 'admin':
+                    AdminService()
+                elif role == 'responsabile tecnico':
+                    IslandsService()
+                elif 'centro logistico' in role:
+                    if role.split()[1] == 'ufficio':
+                        OfficeService()
+                    else:
+                        StorageService()
             else:
                 password_not_recognised()
         except KeyError:
             user_not_found()
-
 
 
 def login():
