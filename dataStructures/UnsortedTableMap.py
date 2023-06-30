@@ -1,4 +1,4 @@
-from map_base import MapBase
+from dataStructures.map_base import MapBase
 
 class UnsortedTableMap(MapBase):
     """

@@ -1,5 +1,5 @@
-from empty import Empty
-from coda_prioritaria_base import PriorityQueueBase
+from dataStructures.empty import Empty
+from dataStructures.coda_prioritaria_base import PriorityQueueBase
 
 
 class HeapPriorityQueue(PriorityQueueBase):

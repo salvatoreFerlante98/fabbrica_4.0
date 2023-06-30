@@ -11,6 +11,9 @@ class Isola:
         self._consumo = consumo
         self._macchinari = self._carica_macchinari()
 
+    def get_consumo(self):
+        return self._consumo
+
     def get_nome(self):
         return self._nome
 

@@ -2,13 +2,12 @@ from random import randint
 from controllers.daos.richiesta import Richiesta
 from dataStructures.lista_posizionale import PositionalList
 from dataStructures.coda_conc import LinkedQueue
-from daos.isola import Isola
+from controllers.daos.isola import Isola
 
 
 class IslandsController:
 
-    def __init__(self, penne):
-        self._penne = penne
+    def __init__(self):
         self._id = 0
         self._richieste = LinkedQueue()
         self.isole = PositionalList()
@@ -28,3 +27,7 @@ class IslandsController:
             isola = self.isole[richiesta[1].get_nome()]
             isola.gestione_macchinari(richiesta)
             num_richieste -= 1
+
+    def get_consume(self, tipo):
+        isola = self.isole[tipo]
+        return isola.get_consumo()
