@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import Tk, Label, Button
 from controllers.islands_controller import IslandsController
 from Services import IslandsService
 from controllers.storage_controller import Storage

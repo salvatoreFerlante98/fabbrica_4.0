@@ -34,7 +34,8 @@ class Storage:
             self._storage_map[richiesta.get_tipo()] = quantita
             return True
 
-    def usa_pezzo(self, tipo, quantita):
+    def spedisci_penne(self, quantita):
+        tipo = 'penne'
         if self._storage_map[tipo] - quantita < 0:
             return False
         else:
