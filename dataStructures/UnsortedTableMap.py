@@ -54,3 +54,9 @@ class UnsortedTableMap(MapBase):
         """
         for item in self._table:
             yield item._key
+
+    def get_magazzino(self, key):
+        for item in self._table:
+            if key == item._key:
+                return item
+        raise KeyError('Key Error: ' + repr(key))

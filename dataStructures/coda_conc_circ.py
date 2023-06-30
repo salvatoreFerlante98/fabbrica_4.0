@@ -50,6 +50,16 @@ class CircularQueue:
         head = self._tail._next
         return head._element
 
+    def last(self):
+        """
+        Restituisce ma non elimina l'elemento in testa alla coda
+        Solleva l'eccezione Empty se la coda è vuota
+        """
+        if self.is_empty():
+            raise Empty('La coda è vuota')
+        head = self._tail
+        return head._element
+
     def dequeue(self):
         """
         Rimuove e restituisce l'elemento in testa alla coda(FIFO).

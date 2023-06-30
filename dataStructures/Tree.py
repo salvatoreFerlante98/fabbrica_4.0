@@ -47,11 +47,11 @@ class Tree:
     def __sub__(self, other):
         self.root.remove_child(Node(other))
 
-    def addSubchild(self, parent, child):
-        self.search(parent) + child
+    def __getitem__(self, item):
+        return self.root.get_child(item)
 
-    def removeSubchild(self, child):
+    def add_subchild(self, parent, child):
+        self[parent] + child
+
+    def remove_subchild(self, child):
         self.root.get_child(child).remove_child(Node(child))
-
-    def search(self, value):
-        return self.root.get_child(value)

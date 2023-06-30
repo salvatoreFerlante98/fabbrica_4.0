@@ -17,9 +17,6 @@ class Isola:
     def get_nome(self):
         return self._nome
 
-    def get_consumo(self):
-        return self._consumo
-
     def _carica_macchinari(self):
         macchinari = CircularQueue()
         t_lavorazione = randint(5, 10)
@@ -63,3 +60,12 @@ class Isola:
                 self._macchinari.rotate()
                 i += 1
             self._macchinari.rotate()
+
+    def get_status_macchinari(self):
+        stati = []
+        for macchinario in self._macchinari:
+            stati + macchinario.get_stato()
+
+    def opera_macchinario(self):
+        if self._macchinari.last().get_stato() == 'On':
+            self._macchinari.last().lavora()
