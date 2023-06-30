@@ -123,7 +123,7 @@ class LinkedBinaryTree(BinaryTree):
             count += 1
         return count
 
-    def add_root(self, e):
+    def _add_root(self, e):
         """
         Posizione l'elemento 'e' alla radice di un albero vuoto e torna alla nuova Position
 
@@ -134,7 +134,7 @@ class LinkedBinaryTree(BinaryTree):
         self._root = self._Node(e)
         return self._make_position(self._root)
 
-    def add_left(self, p, e):
+    def _add_left(self, p, e):
         """
         Crea un nuovo figlio sinistro per la posizione 'p' cui memorizza 'e',
         restituisce la Position del nuovo nodo
@@ -147,7 +147,7 @@ class LinkedBinaryTree(BinaryTree):
         node._left = self._Node(e, node)
         return self._make_position(node._left)
 
-    def add_right(self, p, e):
+    def _add_right(self, p, e):
         """
         Crea un nuovo figlio destro per la posizione 'p' cui memorizza 'e',
         restituisce la Position del nuovo nodo
@@ -194,7 +194,7 @@ class LinkedBinaryTree(BinaryTree):
         node._parent = node
         return node._element
 
-    def attach(self, p, t1, t2):
+    def _attach(self, p, t1, t2):
         """
         Collega gli alberi t1 e t2 come sottoalberi sinistro e destro della foglia p
         """
@@ -215,7 +215,7 @@ class LinkedBinaryTree(BinaryTree):
             t2._root = None  # imposta l'istanza di t2 come vuota
             t2._size = 0
 
-    def preorder(self):
+    def _preorder(self):
         """
         Genera un iterazione preordinata delle posizioni dell'albero
         """
@@ -232,39 +232,40 @@ class LinkedBinaryTree(BinaryTree):
             for other in self._subtree_preoreder(c):
                 yield other
 
-    def positions(self):
+    def _positions(self):
         """
         Restituisce un contenitore iterabile con tutte le posizioni dell'albero.
         """
-        return self.preorder()
+        return self._preorder()
 
     def __iter__(self):
         """
         Restituisce un iteratore che scandisce tutti gli elementi dell'albero.
         """
-        for p in self.positions():
+        for p in self._positions():
             yield p.element()
 
-    def search(self, value):
+    def __getitem__(self, value):
         """
         Cerca un valore nell'albero e restituisce la posizione del primo nodo trovato con quel valore.
         Se il valore non è presente nell'albero, restituisce None.
         """
+        self._recursive_search(self, value)
 
-        def _subtree_search(p, value):
-            """
-            Funzione ricorsiva per cercare un valore in un sottoalbero radicato in 'p'.
-            """
-            if p.element() == value:
-                return p
-            for c in self.children(p):
-                result = _subtree_search(c, value)
-                if result is not None:
-                    return result
-            return None
-
-        if not self.is_empty():
-            p = self.root()
-            return _subtree_search(p, value)
+    @staticmethod
+    def _recursive_search(node, value):
+        """
+        Funzione ricorsiva per cercare un valore in un sottoalbero radicato in 'p'.
+        """
+        if node.element() == value:
+            return node
+        for c in node.children(node):
+            result = node._recursive_search(c, value)
+            if result is not None:
+                return result
+        return None
+        if not node.is_empty():
+            p = node.root()
+            return node._recursive_search(p, value)
         else:
             return None
