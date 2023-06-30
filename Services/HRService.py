@@ -2,7 +2,7 @@ from tkinter import Tk, Label, Button, END, Entry, StringVar, Toplevel
 from controllers.userController import UserController
 
 
-class UserService:
+class HRService:
     user_cont = UserController()
 
     def delete_user(self):
@@ -15,7 +15,6 @@ class UserService:
             Label(delete_screen, text="Utente non trovato", fg="red", font=("calibri", 11)).pack()
 
         username_entry.delete(0, END)
-
 
     def register_user(self):
         username_info = username.get()
@@ -63,9 +62,9 @@ def register():
     Label(register_screen, text="").pack()
 
     # Modifica: crea un'istanza di UserService e chiama il metodo register_user su di essa
-    user_service = UserService()
+    hr_service = HRService()
     Button(register_screen, text="Registra Utente", width=10, height=1, bg="green",
-           command=user_service.register_user).pack()
+           command=hr_service.register_user).pack()
 
     register_screen.mainloop()
 
@@ -88,9 +87,9 @@ def delete():
     username_entry.pack()
 
     # Modifica: crea un'istanza di UserService e chiama il metodo register_user su di essa
-    user_service = UserService()
+    hr_service = HRService()
     Button(delete_screen, text="Elimina Utente", width=10, height=1, bg="green",
-           command=user_service.delete_user).pack()
+           command=hr_service.delete_user).pack()
 
     delete_screen.mainloop()
 
