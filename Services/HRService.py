@@ -8,11 +8,14 @@ class UserService:
     def delete_user(self):
         username_info = username.get()
 
-        self.user_cont.del_user(username_info)
+        try:
+            self.user_cont.del_user(username_info)
+            Label(delete_screen, text="Eliminazione effettuata con successo", fg="green", font=("calibri", 11)).pack()
+        except KeyError:
+            Label(delete_screen, text="Utente non trovato", fg="red", font=("calibri", 11)).pack()
 
         username_entry.delete(0, END)
 
-        Label(register_screen, text="Eliminazione effettuata con successo", fg="green", font=("calibri", 11)).pack()
 
     def register_user(self):
         username_info = username.get()
@@ -89,7 +92,7 @@ def delete():
     Button(delete_screen, text="Elimina Utente", width=10, height=1, bg="green",
            command=user_service.delete_user).pack()
 
-    register_screen.mainloop()
+    delete_screen.mainloop()
 
 
 def main_account_screen():
