@@ -48,7 +48,6 @@ def main_logistic_screen():
     Button(text="Visualizza Magazzino", height="2", width="30", command=create_storage_interface).pack()
     Label(text="").pack()
     Button(text="Rifornisci", height="2", width="30", command=rifornimento_result_screen).pack()
-    Button(text="Crea richista penne", height="2", width="30", command=richiesta_penne_screen).pack()
     logistic_screen.mainloop()
 
 
