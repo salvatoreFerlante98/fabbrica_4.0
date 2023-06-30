@@ -15,6 +15,9 @@ class UserController:
     def del_user(self, name):
         del self.__users[name]
 
+    def __str__(self):
+        return str(self.__users)
+
     def login(self, name, password):
         if self.__users[name].check_password(password):
             return self.__users[name]
