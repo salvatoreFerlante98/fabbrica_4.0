@@ -44,7 +44,7 @@ class _DoublyLinkedBase:
         """
         newest = self._Node(e, predecessor, successor)
         predecessor._next = newest
-        successor._prec = newest
+        successor._prev = newest
         self._size += 1
         return newest
 

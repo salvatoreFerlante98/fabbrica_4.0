@@ -1,4 +1,4 @@
-from lista_doppia_conc import _DoublyLinkedBase
+from dataStructures.lista_doppia_conc import _DoublyLinkedBase
 
 
 class PositionalList(_DoublyLinkedBase):
@@ -99,9 +99,10 @@ class PositionalList(_DoublyLinkedBase):
         Restituisce l'elemento nella Position item.
         """
         cursor = self.first()
-        for i in range(item):
-            cursor = self.after(cursor)
-        return cursor.element()
+        for element in self:
+            if element.get_nome() == item:
+                return cursor.element()
+        return None
 
     # ------------------------------------------------- mutuatori ------------------------------------------------------
     # override la versione ereditata per restituire Position, anziché Node

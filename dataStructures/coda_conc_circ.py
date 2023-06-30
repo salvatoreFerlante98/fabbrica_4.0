@@ -1,4 +1,4 @@
-from empty import Empty
+from dataStructures.empty import Empty
 
 
 class CircularQueue:
