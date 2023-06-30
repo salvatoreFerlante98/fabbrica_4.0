@@ -1,6 +1,6 @@
-from daos.user import User
+from controllers.daos.user import User
 from dataStructures.probe_hash_map import ProbeHashMap
-from daos.permissions import Permissions
+from controllers.daos.permissions import Permissions
 
 
 class UserController:
@@ -9,8 +9,8 @@ class UserController:
         self.__users = ProbeHashMap()
         self.__permission = Permissions()
 
-    def add_user(self, name, age, email, password, role):
-        self.__users[name] = User(name, age, email, self.__permission.get_permission(role), password)
+    def add_user(self, name, password, role):
+        self.__users[name] = User(name, self.__permission.get_permission(role), password)
 
     def del_user(self, name):
         del self.__users[name]
@@ -20,4 +20,6 @@ class UserController:
             return self.__users[name]
         else:
             return None
-        
+
+    def __getitem__(self, item):
+        return self.__users[item]

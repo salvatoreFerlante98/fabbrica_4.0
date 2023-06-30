@@ -23,15 +23,16 @@ class UserService:
         password1 = password_verify.get()
         username_login_entry.delete(0, END)
         password_login_entry.delete(0, END)
-        user = str(self.user_cont.get_user(username1))
-
-        if user == username1:
+        try:
+            user = self.user_cont[username1]
             if self.user_cont.login(username1, password1):
                 login_sucess()
+                #TODO: Passare il ruolo dell'utente al servizio madre
             else:
                 password_not_recognised()
-        else:
+        except KeyError:
             user_not_found()
+
 
 
 def login():
