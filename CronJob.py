@@ -27,13 +27,12 @@ class Cronjob:
 
     def my_task(self):
         """
-        Esegue il compito pianificato.
-        Controlla lo stato dei magazzini e crea richieste se la quantità di un magazzino è inferiore a 100.
-        Calcola il numero di macchinari necessari per produrre le penne in base allo stato delle isole e dei magazzini.
-        Crea richieste di macchinari per i tipi 'punte', 'astucci', 'tappi' se il numero di macchinari è maggiore di zero.
-        Calcola il numero di macchinari necessari per produrre le penne in base allo stato delle penne e dei magazzini.
-        Crea una richiesta di macchinari per il tipo 'penne' se il numero di macchinari è maggiore di zero.
-        Esegue le richieste presenti nella coda delle richieste delle isole.
+        Esegue il compito pianificato. Controlla lo stato dei magazzini e crea richieste se la quantità di un
+        magazzino è inferiore a 100. Calcola il numero di macchinari necessari per produrre le penne in base allo
+        stato delle isole e dei magazzini. Crea richieste di macchinari per i tipi 'punte', 'astucci', 'tappi' se il
+        numero di macchinari è maggiore di zero. Calcola il numero di macchinari necessari per produrre le penne in
+        base allo stato delle penne e dei magazzini. Crea una richiesta di macchinari per il tipo 'penne' se il
+        numero di macchinari è maggiore di zero. Esegue le richieste presenti nella coda delle richieste delle isole.
         """
         magazzini = ['plastica', 'metallo', 'cartucce']
         for magazzino in magazzini:

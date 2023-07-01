@@ -6,13 +6,14 @@ from controllers.StorageController import StorageController
 from services.HRService import HRService
 from services.StorageService import StorageService
 
-
 class AdminService:
-
     def __init__(self, user_controller: UserController,
                  island_controller: IslandsController,
                  storage_controller: StorageController,
                  user_service):
+        """
+        Inizializza il servizio Admin con i controller e i servizi necessari.
+        """
         self.user_controller = user_controller
         self.island_controller = island_controller
         self.storage_controller = storage_controller
@@ -41,6 +42,9 @@ class AdminService:
         self.aggiorna_liste()
 
     def aggiorna_liste(self):
+        """
+        Aggiorna le liste delle isole e dei macchinari.
+        """
         self._isole = []
         self._macchinari = []
         for isola in self.island_controller.isole:
@@ -48,12 +52,18 @@ class AdminService:
             self._macchinari.append(isola.get_status_macchinari())
 
     def get_user_list(self):
+        """
+        Restituisce la lista degli utenti.
+        """
         user_list = []
         for user in self.user_controller:
             user_list.append(user)
         return user_list
 
     def view_user_list(self):
+        """
+        Visualizza la lista degli utenti in una finestra.
+        """
         user_list = self.get_user_list()
 
         layout = [
@@ -79,6 +89,9 @@ class AdminService:
         window.close()
 
     def view_machines_in_progress(self):
+        """
+        Visualizza lo stato dei macchinari in lavorazione per ogni isola in una finestra.
+        """
         self.aggiorna_liste()
         layout = [
             [sg.Text("Macchinari in Lavorazione", background_color="gray", font=("Calibri", 13))],
@@ -126,6 +139,10 @@ class AdminService:
         window.close()
 
     def run(self):
+        """
+        Esegue il servizio Admin.
+        Mostra un'interfaccia grafica con diverse opzioni per l'amministratore.
+        """
         layout = [
             [sg.Text("Scegli un'opzione", background_color="gray", size=(30, 2), font=("Calibri", 13))],
             [sg.Button("Visualizza Lista Utenti", size=(30, 2))],

@@ -50,5 +50,8 @@ class UserController:
         return self._users[item]
 
     def __iter__(self):
+        """
+        Genera un'iterazione in avanti degli elementi.
+        """
         for user in self._users:
             yield user

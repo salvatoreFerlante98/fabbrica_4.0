@@ -7,7 +7,6 @@ from controllers.userController import UserController
 from controllers.IslandsController import IslandsController
 from controllers.StorageController import StorageController
 
-
 class UserService:
     def __init__(self, island_controller: IslandsController,
                  storage_controller: StorageController,
@@ -39,6 +38,10 @@ class UserService:
         self.user_controller.add_user('admin', 'nimda', 'admin')
 
     def login_verify(self, username, password):
+        """
+        Verifica le credenziali dell'utente durante il login.
+        In base al ruolo dell'utente, esegue il servizio corrispondente.
+        """
         username1 = username
         password1 = password
         try:
@@ -73,6 +76,9 @@ class UserService:
 
     @staticmethod
     def password_not_recognized():
+        """
+        Mostra una finestra popup con un messaggio di password non riconosciuta.
+        """
         layout = [
             [sg.Text("Invalid Password")],
             [sg.Button("OK", size=(10, 1))]
@@ -83,6 +89,9 @@ class UserService:
 
     @staticmethod
     def user_not_found():
+        """
+        Mostra una finestra popup con un messaggio di utente non trovato.
+        """
         layout = [
             [sg.Text("Utente non trovato")],
             [sg.Button("OK", size=(10, 1))]
@@ -93,6 +102,9 @@ class UserService:
 
     @staticmethod
     def user_without_permission():
+        """
+        Mostra una finestra popup con un messaggio di utente senza permessi.
+        """
         layout = [
             [sg.Text("Questo utente non ha i permessi per operare")],
             [sg.Button("OK", size=(10, 1))]
@@ -103,6 +115,9 @@ class UserService:
 
     @staticmethod
     def login_success():
+        """
+        Mostra una finestra popup con un messaggio di login avvenuto con successo.
+        """
         layout = [
             [sg.Text("Login Success")],
             [sg.Button("OK", size=(10, 1))]
@@ -112,6 +127,10 @@ class UserService:
         window.close()
 
     def run(self):
+        """
+        Esegue il programma principale.
+        Mostra una finestra con il pulsante di login.
+        """
         layout = [
             [sg.Text("Fabbrica FePa")],
             [sg.Button("Login", size=(10, 1))]
@@ -123,6 +142,9 @@ class UserService:
             self.login_screen()
 
     def login_screen(self):
+        """
+        Mostra la finestra di login per inserire nome utente e password.
+        """
         layout = [
             [sg.Text("Inserisci nome e password")],
             [sg.Input(key='-USERNAME-')],

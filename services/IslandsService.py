@@ -1,14 +1,20 @@
 import PySimpleGUI as sg
 from controllers.daos.isola import Isola
 
-
 class IslandService:
     def __init__(self, island: Isola, magazzino_materiale, magazzino_produzione):
+        """
+        Inizializza il servizio per l'isola specificata con i magazzini di materiale e produzione.
+        """
         self.island = island
         self.magazzino_materiale = magazzino_materiale
         self.magazzino_produzione = magazzino_produzione
 
     def run(self):
+        """
+        Esegue il servizio dell'isola.
+        Mostra un'interfaccia grafica per gestire i macchinari dell'isola.
+        """
         layout = [
             [sg.Text("Macchinario 1"), sg.Text(self.island.get_status_macchinari()[0])],
             [sg.Text("Macchinario 2"), sg.Text(self.island.get_status_macchinari()[1])],
