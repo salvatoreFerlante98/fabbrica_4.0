@@ -6,6 +6,7 @@ from controllers.StorageController import StorageController
 from services.HRService import HRService
 from services.StorageService import StorageService
 
+
 class AdminService:
 
     def __init__(self, user_controller: UserController,
@@ -27,7 +28,7 @@ class AdminService:
 
         self.isola_astucci_service = IslandService(self.island_controller.isole['astucci'],
                                                    self.storage_controller['plastica'],
-                                                 self.storage_controller['astucci'])
+                                                   self.storage_controller['astucci'])
 
         self.isola_penne_service = IslandService(self.island_controller.isole['penne'],
                                                  [self.storage_controller['punte'],
@@ -121,7 +122,6 @@ class AdminService:
                 if isola == "penne":
                     self.isola_penne_service.run()
             window.refresh()
-
 
         window.close()
 

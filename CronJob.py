@@ -1,5 +1,7 @@
 import time
+
 import schedule
+
 
 class Cronjob:
     def __init__(self, islands, storage):
@@ -41,17 +43,20 @@ class Cronjob:
         penne_da_produrre = self._richiesta_penne - self._storages['penne'].value
 
         n_macchinari = self.check_status_and_choose_machines(self._storages['punte'].value,
-                                                             self._islands.get_consume('punte'), self._storages['metallo'].value, penne_da_produrre)
+                                                             self._islands.get_consume('punte'),
+                                                             self._storages['metallo'].value, penne_da_produrre)
         if n_macchinari > 0:
             self._islands.crea_richiesta('punte', n_macchinari)
 
         n_macchinari = self.check_status_and_choose_machines(self._storages['astucci'].value,
-                                                             self._islands.get_consume('astucci'), self._storages['plastica'].value, penne_da_produrre)
+                                                             self._islands.get_consume('astucci'),
+                                                             self._storages['plastica'].value, penne_da_produrre)
         if n_macchinari > 0:
             self._islands.crea_richiesta('astucci', n_macchinari)
 
         n_macchinari = self.check_status_and_choose_machines(self._storages['tappi'].value,
-                                                             self._islands.get_consume('tappi'), self._storages['plastica'].value, penne_da_produrre)
+                                                             self._islands.get_consume('tappi'),
+                                                             self._storages['plastica'].value, penne_da_produrre)
         if n_macchinari > 0:
             self._islands.crea_richiesta('tappi', n_macchinari)
 
