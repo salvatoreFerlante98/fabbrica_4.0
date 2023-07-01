@@ -24,8 +24,8 @@ class IslandsController:
         num_richieste = len(self._richieste)
         while num_richieste != 0:
             richiesta = self._richieste.dequeue()
-            isola = self.isole[richiesta[1].get_nome()]
-            isola.gestione_macchinari(richiesta)
+            isola = self.isole[richiesta.tipo]
+            isola.gestione_macchinari(richiesta.quantita)
             num_richieste -= 1
 
     def get_consume(self, tipo):

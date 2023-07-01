@@ -27,9 +27,9 @@ class Isola:
     def gestione_macchinari(self, richiesta):
         macchinari_on = self._macchinari_accesi()
         if macchinari_on < richiesta:
-            self._accendi_macchinari(macchinari_on - richiesta)
+            self._accendi_macchinari(richiesta -macchinari_on)
         elif macchinari_on > richiesta:
-            self._spegni_macchinari(richiesta - macchinari_on)
+            self._spegni_macchinari(macchinari_on- richiesta)
 
     def _macchinari_accesi(self):
         macchinari_on = 0

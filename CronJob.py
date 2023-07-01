@@ -1,3 +1,7 @@
+import time
+import schedule
+
+
 class Cronjob:
     def __init__(self, islands, storage):
         self._islands = islands
@@ -50,3 +54,16 @@ class Cronjob:
             n_macchinari -= 1
         if n_macchinari > 0:
             self._islands.crea_richiesta('penne', n_macchinari)
+
+        self._islands.esegui_richieste()
+
+    def run(self):
+        schedule.every(1).seconds.do(self.my_task)
+        while True:
+            schedule.run_pending()
+            time.sleep(1)
+
+
+
+
+
