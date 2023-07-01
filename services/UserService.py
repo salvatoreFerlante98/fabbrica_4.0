@@ -18,7 +18,7 @@ class UserService:
 
         self.isola_punte_service = IslandService(self.island_controller.isole['punte'],
                                                  self.storage_controller['metallo'],
-                                                 self.storage_controller['punte'])
+                                                 self.storage_controller['punte'], self)
 
         self.isola_tappi_service = IslandService(self.island_controller.isole['tappi'],
                                                  self.storage_controller['plastica'],
@@ -26,14 +26,14 @@ class UserService:
 
         self.isola_astucci_service = IslandService(self.island_controller.isole['astucci'],
                                                    self.storage_controller['plastica'],
-                                                   self.storage_controller['astucci'])
+                                                   self.storage_controller['astucci'], self)
 
         self.isola_penne_service = IslandService(self.island_controller.isole['penne'],
                                                  [self.storage_controller['punte'],
                                                   self.storage_controller['tappi'],
                                                   self.storage_controller['astucci'],
                                                   self.storage_controller['cartucce']],
-                                                 self.storage_controller['penne'])
+                                                 self.storage_controller['penne'], self)
         self.admin_service = AdminService(self.user_controller, self.island_controller, self.storage_controller, self)
         self.user_controller.add_user('admin', 'nimda', 'admin')
 
@@ -64,9 +64,9 @@ class UserService:
                 elif role == 'penne':
                     self.isola_penne_service.run()
                 elif 'risorse_umane' in role:
-                    HRService(self.user_controller).run()
+                    HRService(self.user_controller, self).run()
                 elif 'responsabile_logistica' == role:
-                    StorageService(self.storage_controller).run()
+                    StorageService(self.storage_controller, self).run()
                 else:
                     self.user_without_permission()
             else:
