@@ -1,6 +1,6 @@
 from abc import ABC
 from random import randrange
-from map_base import MapBase
+from data_structures.MapBase import MapBase
 
 
 class HashMapBase(MapBase, ABC):

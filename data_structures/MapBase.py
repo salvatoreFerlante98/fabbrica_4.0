@@ -11,14 +11,14 @@ class MapBase(MutableMapping):
         """
         Classe innestata che figura una coppia K-V contenuti all'interno della mappa.
         """
-        __slots__ = '_key', '_value'
+        __slots__ = '_key', 'value'
 
         def __init__(self, Key, Value):
             """
             Inizializza un oggetto ti tipo _Item.
             """
             self._key = Key
-            self._value = Value
+            self.value = Value
 
         def __eq__(self, other):
             return self._key == other._key  # Confronta in base alla chiave

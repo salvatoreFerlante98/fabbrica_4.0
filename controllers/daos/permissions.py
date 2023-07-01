@@ -1,18 +1,23 @@
-from dataStructures.Tree import Tree
+from data_structures.TreeMultiLeaf import TreeMultiLeaf
 
 
 class Permissions:
 
     def __init__(self):
-        self.__permission = Tree("admin")
-        self.__permission + "responsabile tecnico"
-        self.__permission + "responsabile magazziniere"
-        self.__permission.addSubchild("responsabile tecnico", "isola_punte")
-        self.__permission.addSubchild("responsabile tecnico", "isola_astucci")
-        self.__permission.addSubchild("responsabile tecnico", "isola_penne")
-        self.__permission.addSubchild("responsabile tecnico", "isola_tappi")
-        self.__permission.addSubchild("responsabile magazziniere", "magazzino")
-        self.__permission.addSubchild("responsabile magazziniere", "spedizioniere")
+        """
+        Inizializza un oggetto Permissions con un albero dei permessi predefinito.
+        """
+        self._permission = TreeMultiLeaf('admin')
+        self._permission + 'responsabile_macchinari'
+        self._permission + 'responsabile_logistica'
+        self._permission + 'risorse_umane'
+        self._permission['responsabile_macchinari'] + 'punte'
+        self._permission['responsabile_macchinari'] + 'astucci'
+        self._permission['responsabile_macchinari'] + 'tappi'
+        self._permission['responsabile_macchinari'] + 'penne'
 
     def get_permission(self, role):
-        return self.__permission.search(role)
+        """
+        Restituisce i permessi associati al ruolo specificato.
+        """
+        return self._permission[role]

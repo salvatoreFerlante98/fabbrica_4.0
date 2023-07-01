@@ -1,4 +1,4 @@
-from dataStructures.map_base import MapBase
+from data_structures.MapBase import MapBase
 
 class UnsortedTableMap(MapBase):
     """
@@ -17,7 +17,7 @@ class UnsortedTableMap(MapBase):
         """
         for item in self._table:
             if key == item._key:
-                return item._value
+                return item.value
         raise KeyError('Key Error: ' + repr(key))
 
     def __setitem__(self, key, value):
@@ -26,7 +26,7 @@ class UnsortedTableMap(MapBase):
         """
         for item in self._table:
             if key == item._key:
-                item._value = value
+                item.value = value
                 return
         # Se non trova la chiave
         self._table.append(self._Item(key, value))
@@ -54,3 +54,9 @@ class UnsortedTableMap(MapBase):
         """
         for item in self._table:
             yield item._key
+
+    def get_magazzino(self, key):
+        for item in self._table:
+            if key == item._key:
+                return item
+        raise KeyError('Key Error: ' + repr(key))

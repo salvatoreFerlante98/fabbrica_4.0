@@ -4,6 +4,9 @@ class Node:
         self.children = []
         self.parent = None
 
+    def __add__(self, other):
+        self.children.append(Node(other))
+
     def add_child(self, child_node):
         self.children.append(child_node)
         child_node.parent = self
@@ -21,15 +24,20 @@ class Node:
     def _recursive_get_child(self, node, value):
         if node.value == value:
             return node
+        elif not node.children:
+            return None
         else:
             for child in node.children:
-                return self._recursive_get_child(child, value)
+                result = self._recursive_get_child(child, value)
+                if result:
+                    return result
+            return None
 
     def __str__(self):
         return str(self.value)
 
 
-class Tree:
+class TreeMultiLeaf:
     def __init__(self, root):
         self.root = Node(root)
 
@@ -39,11 +47,11 @@ class Tree:
     def __sub__(self, other):
         self.root.remove_child(Node(other))
 
-    def addSubchild(self, parent, child):
-        parent.add_child(Node(child))
+    def __getitem__(self, item):
+        return self.root.get_child(item)
 
-    def removeSubchild(self, child):
+    def add_subchild(self, parent, child):
+        self[parent] + child
+
+    def remove_subchild(self, child):
         self.root.get_child(child).remove_child(Node(child))
-
-    def search(self, value):
-        return "" + self.root.get_child(value)
