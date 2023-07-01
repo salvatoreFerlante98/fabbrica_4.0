@@ -3,7 +3,7 @@ from controllers.userController import UserController
 from controllers.IslandsController import IslandsController
 from controllers.StorageController import StorageController
 from CronJob import Cronjob
-from Services.UserService import UserService
+from services.UserService import UserService
 
 island_controller = IslandsController()
 storage_controller = StorageController()

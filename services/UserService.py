@@ -1,8 +1,8 @@
 import PySimpleGUI as sg
-from Services.HRService import HRService
-from Services.IslandsService import IslandService
-from Services.AdminService import AdminService
-from Services.StorageService import StorageService
+from services.HRService import HRService
+from services.IslandsService import IslandService
+from services.AdminService import AdminService
+from services.StorageService import StorageService
 from controllers.userController import UserController
 from controllers.IslandsController import IslandsController
 from controllers.StorageController import StorageController
@@ -10,7 +10,10 @@ from CronJob import Cronjob
 
 
 class UserService:
-    def __init__(self, island_controller: IslandsController, storage_controller: StorageController, user_controller: UserController):
+    def __init__(self, island_controller: IslandsController,
+                 storage_controller: StorageController,
+                 user_controller: UserController):
+
         self.island_controller = island_controller
         self.storage_controller = storage_controller
         self.user_controller = user_controller
@@ -20,7 +23,7 @@ class UserService:
                                                  self.storage_controller['plastica'])
         self.isola_astucci_service = IslandService(self.island_controller.isole['astucci'],
                                                    self.storage_controller['plastica'])
-        self.admin_service = AdminService(self.user_controller, self.island_controller)
+        self.admin_service = AdminService(self.user_controller, self.island_controller, self.storage_controller)
         self.user_controller.add_user('admin', 'nimda', 'admin')
 
     def login_verify(self, username, password):
