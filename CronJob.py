@@ -63,10 +63,9 @@ class Cronjob:
             (self._storages['penne'].value / (
                     self._richiesta_penne - self._storages['penne'].value)) * 40
         )
-        while (self._storages['punte'].value < n_macchinari) and (
+        while ((self._storages['punte'].value < n_macchinari) and (
                 self._storages['tappi'].value < n_macchinari) and (
-                self._storages['astucci'].value < n_macchinari) \
-                or (n_macchinari > 0):
+                self._storages['astucci'].value < n_macchinari) ) or (n_macchinari == 0):
             n_macchinari -= 1
         if n_macchinari > 0:
             self._islands.crea_richiesta('penne', n_macchinari)
