@@ -1,20 +1,20 @@
 import PySimpleGUI as sg
-from controllers.storage_controller import Storage
+from controllers.storage_controller import StorageController
 
 
 class StorageService:
-    storage_cont = Storage()
+    storage_cont = StorageController()
 
 
 def create_storage_interface():
     storage_serv = StorageService()
-    plastica = storage_serv.storage_cont.get_magazzino('plastica')
-    metallo = storage_serv.storage_cont.get_magazzino('metallo')
-    cartucce = storage_serv.storage_cont.get_magazzino('cartucce')
-    punte = storage_serv.storage_cont.get_magazzino('punte')
-    tappi = storage_serv.storage_cont.get_magazzino('tappi')
-    astucci = storage_serv.storage_cont.get_magazzino('astucci')
-    penne = storage_serv.storage_cont.get_magazzino('penne')
+    plastica = storage_serv.storage_cont['plastica']
+    metallo = storage_serv.storage_cont['metallo']
+    cartucce = storage_serv.storage_cont['cartucce']
+    punte = storage_serv.storage_cont['punte']
+    tappi = storage_serv.storage_cont['tappi']
+    astucci = storage_serv.storage_cont['astucci']
+    penne = storage_serv.storage_cont['penne']
 
     layout = [
         [sg.Text('Plastica: ' + str(plastica), background_color="gray", size=(30, 1))],
