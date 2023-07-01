@@ -35,7 +35,7 @@ class IslandService:
                         self.magazzino_materiale.value = self.magazzino_materiale.value - self.island.get_consumo()
                     else:
                         for magazzino in self.magazzino_materiale:
-                            magazzino -= 1
+                            magazzino.value -= 1
                     self.island.opera_macchinario()
                     self.magazzino_produzione.value = self.magazzino_produzione.value + 1
                 window.refresh()
