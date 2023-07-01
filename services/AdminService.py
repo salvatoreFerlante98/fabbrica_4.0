@@ -21,22 +21,22 @@ class AdminService:
 
         self.isola_punte_service = IslandService(self.island_controller.isole['punte'],
                                                  self.storage_controller['metallo'],
-                                                 self.storage_controller['punte'], self)
+                                                 self.storage_controller['punte'], self.user_service)
 
         self.isola_tappi_service = IslandService(self.island_controller.isole['tappi'],
                                                  self.storage_controller['plastica'],
-                                                 self.storage_controller['tappi'], self)
+                                                 self.storage_controller['tappi'], self.user_service)
 
         self.isola_astucci_service = IslandService(self.island_controller.isole['astucci'],
                                                    self.storage_controller['plastica'],
-                                                   self.storage_controller['astucci'], self)
+                                                   self.storage_controller['astucci'], self.user_service)
 
         self.isola_penne_service = IslandService(self.island_controller.isole['penne'],
                                                  [self.storage_controller['punte'],
                                                   self.storage_controller['tappi'],
                                                   self.storage_controller['astucci'],
                                                   self.storage_controller['cartucce']],
-                                                 self.storage_controller['penne'], self)
+                                                 self.storage_controller['penne'], self.user_service)
         self._isole = []
         self._macchinari = []
         self.aggiorna_liste()
@@ -82,7 +82,7 @@ class AdminService:
                 break
 
             if event == "Edit_Users":
-                HRService(self.user_controller, self).run()
+                HRService(self.user_controller, self.user_service).run()
 
             window.refresh()
 
@@ -168,7 +168,7 @@ class AdminService:
                 self.view_machines_in_progress()
 
             if event == "Visualizza stato magazzino":
-                StorageService(self.storage_controller, self).run()
+                StorageService(self.storage_controller, self.user_service).run()
 
             window.refresh()
         window.close()
