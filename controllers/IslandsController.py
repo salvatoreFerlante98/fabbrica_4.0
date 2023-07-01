@@ -11,7 +11,7 @@ class IslandsController:
         """
         Inizializza un oggetto IslandsController.
         Viene inizializzato un contatore per gli ID delle richieste,
-        una coda per le richieste e una lista posizionale per le isole.
+        una coda prioritaria per le richieste e una lista posizionale per le isole.
         Vengono create alcune isole di tipo predefinito.
         """
         self._id = 0
