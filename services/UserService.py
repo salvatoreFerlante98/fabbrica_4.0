@@ -22,7 +22,7 @@ class UserService:
 
         self.isola_tappi_service = IslandService(self.island_controller.isole['tappi'],
                                                  self.storage_controller['plastica'],
-                                                 self.storage_controller['tappi'])
+                                                 self.storage_controller['tappi'], self)
 
         self.isola_astucci_service = IslandService(self.island_controller.isole['astucci'],
                                                    self.storage_controller['plastica'],
