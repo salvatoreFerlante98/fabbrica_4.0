@@ -1,4 +1,4 @@
-from dataStructures.HashMapBase import HashMapBase
+from data_structures.HashMapBase import HashMapBase
 
 class ProbeHashMap(HashMapBase):
     """

@@ -1,4 +1,4 @@
-from lista_doppia_conc import _DoublyLinkedBase
+from DoublyLinkedBase import _DoublyLinkedBase
 from empty import Empty
 
 

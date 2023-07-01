@@ -1,7 +1,7 @@
 from random import randint
 
 from controllers.daos.macchinario import Macchinario
-from dataStructures.coda_conc_circ import CircularQueue
+from data_structures.CircularQueue import CircularQueue
 
 
 class Isola:
@@ -12,12 +12,21 @@ class Isola:
         self._macchinari = self._carica_macchinari()
 
     def get_consumo(self):
+        """
+        Restituisce il consumo dell'isola.
+        """
         return self._consumo
 
     def get_nome(self):
+        """
+        Restituisce il nome dell'isola.
+        """
         return self._nome
 
     def _carica_macchinari(self):
+        """
+        Carica i macchinari nell'isola e restituisce una coda circolare contenente i macchinari.
+        """
         macchinari = CircularQueue()
         t_lavorazione = randint(5, 10)
         for i in range(0, 4):
@@ -25,6 +34,9 @@ class Isola:
         return macchinari
 
     def gestione_macchinari(self, richiesta):
+        """
+        Gestisce l'accensione/spegnimento dei macchinari in base alla richiesta specificata.
+        """
         macchinari_on = self._macchinari_accesi()
         if macchinari_on < richiesta:
             self._accendi_macchinari(richiesta -macchinari_on)
@@ -32,6 +44,9 @@ class Isola:
             self._spegni_macchinari(macchinari_on- richiesta)
 
     def _macchinari_accesi(self):
+        """
+        Restituisce il numero di macchinari accesi.
+        """
         macchinari_on = 0
         for macchinario in self._macchinari:
             if macchinario.get_stato() == 'On':
@@ -40,6 +55,9 @@ class Isola:
         return macchinari_on
 
     def _accendi_macchinari(self, num):
+        """
+        Accende il numero specificato di macchinari.
+        """
         i = 0
         while i < num:
             macchinario = self._macchinari.first()
@@ -51,6 +69,9 @@ class Isola:
             self._macchinari.rotate()
 
     def _spegni_macchinari(self, num):
+        """
+        Spegne il numero specificato di macchinari.
+        """
         i = 0
         while i < num:
             macchinario = self._macchinari.first()
@@ -62,11 +83,17 @@ class Isola:
             self._macchinari.rotate()
 
     def get_status_macchinari(self):
+        """
+        Restituisce lo stato di tutti i macchinari nell'isola.
+        """
         stati = []
         for macchinario in self._macchinari:
             stati.append(macchinario.get_stato())
         return stati
 
     def opera_macchinario(self):
+        """
+        Avvia il macchinario nell'isola se è acceso.
+        """
         if self._macchinari.last().get_stato() == 'On':
             self._macchinari.last().lavora()

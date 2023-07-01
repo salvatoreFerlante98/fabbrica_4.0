@@ -1,13 +1,19 @@
 from random import randint
 from controllers.daos.richiesta import Richiesta
-from dataStructures.lista_posizionale import PositionalList
-from dataStructures.coda_conc import LinkedQueue
+from data_structures.PositionalList import PositionalList
+from data_structures.LinkedQueue import LinkedQueue
 from controllers.daos.isola import Isola
 
 
 class IslandsController:
 
     def __init__(self):
+        """
+        Inizializza un oggetto IslandsController.
+        Viene inizializzato un contatore per gli ID delle richieste,
+        una coda per le richieste e una lista posizionale per le isole.
+        Vengono create alcune isole di tipo predefinito.
+        """
         self._id = 0
         self._richieste = LinkedQueue()
         self.isole = PositionalList()
@@ -17,10 +23,18 @@ class IslandsController:
             position = self.isole.add_after(position, Isola(nome, randint(1, 5)))
 
     def crea_richiesta(self, tipo, quantita):
+        """
+        Crea una nuova richiesta con il tipo e la quantità specificati,
+        assegnandole un ID incrementale.
+        """
         self._id += 1
         self._richieste.enqueue(Richiesta(self._id, tipo, quantita))
 
     def esegui_richieste(self):
+        """
+        Esegue le richieste presenti nella coda delle richieste.
+        Per ogni richiesta, trova l'isola corrispondente al tipo e gestisce i macchinari.
+        """
         num_richieste = len(self._richieste)
         while num_richieste != 0:
             richiesta = self._richieste.dequeue()
@@ -29,5 +43,8 @@ class IslandsController:
             num_richieste -= 1
 
     def get_consume(self, tipo):
+        """
+        Restituisce il consumo dell'isola corrispondente al tipo specificato.
+        """
         isola = self.isole[tipo]
         return isola.get_consumo()

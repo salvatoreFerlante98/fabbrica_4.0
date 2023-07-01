@@ -1,4 +1,4 @@
-from dataStructures.albero_binario import BinaryTree
+from data_structures.BinaryTree import BinaryTree
 
 
 class LinkedBinaryTree(BinaryTree):

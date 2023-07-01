@@ -1,4 +1,4 @@
-from dataStructures.empty import Empty
+from data_structures.empty import Empty
 
 
 class LinkedQueue:

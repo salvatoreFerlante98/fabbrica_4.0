@@ -37,7 +37,7 @@ class Node:
         return str(self.value)
 
 
-class Tree:
+class TreeMultiLeaf:
     def __init__(self, root):
         self.root = Node(root)
 

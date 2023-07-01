@@ -1,6 +1,6 @@
 from empty import Empty
-from coda_prioritaria_base import PriorityQueueBase
-from lista_posizionale import PositionalList
+from PriorityQueueBase import PriorityQueueBase
+from PositionalList import PositionalList
 
 
 class UnsortedPriorityQueue(PriorityQueueBase):

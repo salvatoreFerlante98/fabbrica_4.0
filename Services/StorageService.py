@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from controllers.storage_controller import StorageController
+from controllers.StorageController import StorageController
 
 
 class StorageService:

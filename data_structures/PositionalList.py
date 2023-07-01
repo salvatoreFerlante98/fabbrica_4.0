@@ -1,4 +1,4 @@
-from dataStructures.lista_doppia_conc import _DoublyLinkedBase
+from data_structures.DoublyLinkedBase import _DoublyLinkedBase
 
 
 class PositionalList(_DoublyLinkedBase):
