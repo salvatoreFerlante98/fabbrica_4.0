@@ -1,8 +1,8 @@
 from random import randint
 from controllers.daos.richiesta import Richiesta
 from data_structures.PositionalList import PositionalList
-from data_structures.LinkedQueue import LinkedQueue
 from controllers.daos.isola import Isola
+from data_structures.UnsortedPriorityQueue import UnsortedPriorityQueue
 
 
 class IslandsController:
@@ -15,7 +15,7 @@ class IslandsController:
         Vengono create alcune isole di tipo predefinito.
         """
         self._id = 0
-        self._richieste = LinkedQueue()
+        self._richieste = UnsortedPriorityQueue()
         self.isole = PositionalList()
         isole_tipi = ['punte', 'astucci', 'tappi']
         position = self.isole.add_first(Isola('penne', 1))
@@ -28,7 +28,7 @@ class IslandsController:
         assegnandole un ID incrementale.
         """
         self._id += 1
-        self._richieste.enqueue(Richiesta(self._id, tipo, quantita))
+        self._richieste.add(Richiesta(self._id, tipo, quantita), quantita)
 
     def esegui_richieste(self):
         """
@@ -37,7 +37,7 @@ class IslandsController:
         """
         num_richieste = len(self._richieste)
         while num_richieste != 0:
-            richiesta = self._richieste.dequeue()
+            richiesta = self._richieste.remove_max()
             isola = self.isole[richiesta.tipo]
             isola.gestione_macchinari(richiesta.quantita)
             num_richieste -= 1
