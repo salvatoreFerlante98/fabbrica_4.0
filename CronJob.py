@@ -1,13 +1,7 @@
-import schedule
-import time
-from controllers.islands_controller import IslandsController
-from controllers.storage_controller import Storage
-
-
 class Cronjob:
-    def __init__(self):
-        self._islands = IslandsController()
-        self._storages = Storage()
+    def __init__(self, islands, storage):
+        self._islands = islands
+        self._storages = storage
         self._richiesta_penne = 1000
 
     @staticmethod
@@ -25,42 +19,34 @@ class Cronjob:
     def my_task(self):
         magazzini = ['plastica', 'metallo', 'cartucce']
         for magazzino in magazzini:
-            if self._storages.get_magazzino(magazzino) < 100:
+            if self._storages[magazzino].value < 100:
                 self._storages.crea_richiesta(magazzino)
 
-        penne_da_produrre = self._richiesta_penne - self._storages.get_magazzino('penne')
+        penne_da_produrre = self._richiesta_penne - self._storages['penne'].value
 
-        n_macchinari = self.check_status_and_choose_machines(self._storages.get_magazzino('punte'),
-                                                             self._islands.get_consume('punte'), self._storages.get_magazzino('metallo'), penne_da_produrre)
+        n_macchinari = self.check_status_and_choose_machines(self._storages['punte'].value,
+                                                             self._islands.get_consume('punte'), self._storages['metallo'].value, penne_da_produrre)
         if n_macchinari > 0:
             self._islands.crea_richiesta('punte', n_macchinari)
 
-        n_macchinari = self.check_status_and_choose_machines(self._storages.get_magazzino('astucci'),
-                                                             self._islands.get_consume('astucci'), self._storages.get_magazzino('plastica'), penne_da_produrre)
+        n_macchinari = self.check_status_and_choose_machines(self._storages['astucci'].value,
+                                                             self._islands.get_consume('astucci'), self._storages['plastica'].value, penne_da_produrre)
         if n_macchinari > 0:
             self._islands.crea_richiesta('astucci', n_macchinari)
 
-        n_macchinari = self.check_status_and_choose_machines(self._storages.get_magazzino('tappi'),
-                                                             self._islands.get_consume('tappi'), self._storages.get_magazzino('plastica'), penne_da_produrre)
+        n_macchinari = self.check_status_and_choose_machines(self._storages['tappi'].value,
+                                                             self._islands.get_consume('tappi'), self._storages['plastica'].value, penne_da_produrre)
         if n_macchinari > 0:
             self._islands.crea_richiesta('tappi', n_macchinari)
 
         n_macchinari = round(
-            (self._storages.get_magazzino('penne') / (
-                    self._richiesta_penne - self._storages.get_magazzino('penne'))) * 40
+            (self._storages['penne'].value / (
+                    self._richiesta_penne - self._storages['penne'].value)) * 40
         )
-        while (self._storages.get_magazzino('punte') < n_macchinari) and (
-                self._storages.get_magazzino('tappi') < n_macchinari) and (
-                self._storages.get_magazzino('astucci') < n_macchinari) \
+        while (self._storages['punte'].value < n_macchinari) and (
+                self._storages['tappi'].value < n_macchinari) and (
+                self._storages['astucci'].value < n_macchinari) \
                 or (n_macchinari > 0):
             n_macchinari -= 1
         if n_macchinari > 0:
             self._islands.crea_richiesta('penne', n_macchinari)
-
-
-cronjob = Cronjob()
-schedule.every(1).seconds.do(cronjob.my_task)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)

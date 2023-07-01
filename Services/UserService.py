@@ -1,110 +1,118 @@
-from tkinter import Tk, Label, Button, END, Entry, StringVar, Toplevel
-from Services.AdminService import AdminService
+import PySimpleGUI as sg
+import schedule
+import time
 from Services.HRService import HRService
 from Services.IslandsService import IslandService
 from Services.StorageService import StorageService
 from controllers.userController import UserController
+from controllers.islands_controller import IslandsController
+from controllers.storage_controller import StorageController
+from CronJob import Cronjob
 
 
 class UserService:
     def __init__(self):
+        self.island_controller = IslandsController()
+        self.storage_controller = StorageController()
         self.user_cont = UserController()
+        self.isola_punte_service = IslandService(self.island_controller.isole['punte'],
+                                                 self.storage_controller['metallo'])
+        self.isola_tappi_service = IslandService(self.island_controller.isole['tappi'],
+                                                 self.storage_controller['plastica'])
+        self.isola_astucci_service = IslandService(self.island_controller.isole['astucci'],
+                                                   self.storage_controller['plastica'])
+        self.user_cont.add_user('admin', 'nimda', 'punte')
+        cronjob = Cronjob(self.island_controller, self.storage_controller)
+        schedule.every(1).seconds.do(cronjob.my_task)
 
-    def login_verify(self):
-        username1 = username_verify.get()
-        password1 = password_verify.get()
-        username_login_entry.delete(0, END)
-        password_login_entry.delete(0, END)
+
+    def login_verify(self, username, password):
+        username1 = username
+        password1 = password
         try:
             user = self.user_cont[username1]
             if self.user_cont.login(username1, password1):
                 self.login_success()
                 role = str(user.get_role())
                 if role == 'admin':
-                    AdminService()
-                elif role == 'responsabile tecnico':
-                    IslandService()
+                    cipolla = 0
+                    # AdminService()
+                elif role == 'responsabile_macchinari':
+                    self.isola_punte_service.run()
+                    self.isola_tappi_service.run()
+                    self.isola_astucci_service.run()
+                elif role == 'punte':
+                    self.isola_punte_service.run()
+                elif role == 'tappi':
+                    self.isola_tappi_service.run()
+                elif role == 'astucci':
+                    self.isola_astucci_service.run()
                 elif 'centro logistico' in role:
                     if role.split()[1] == 'ufficio':
                         HRService()
                     else:
                         StorageService()
             else:
-                self.password_not_recognised()
+                self.password_not_recognized()
         except KeyError:
             self.user_not_found()
 
-    def login(self):
-        global login_screen
-        login_screen = Toplevel(main_screen)
-        login_screen.title("Login")
-        login_screen.geometry("300x250")
-        Label(login_screen, text="Inserisci nome e password").pack()
-        Label(login_screen, text="").pack()
-
-        global username_verify
-        global password_verify
-
-        username_verify = StringVar()
-        password_verify = StringVar()
-
-        global username_login_entry
-        global password_login_entry
-
-        Label(login_screen, text="Username * ").pack()
-        username_login_entry = Entry(login_screen, textvariable=username_verify)
-        username_login_entry.pack()
-        Label(login_screen, text="").pack()
-        Label(login_screen, text="Password * ").pack()
-        password_login_entry = Entry(login_screen, textvariable=password_verify, show='*')
-        password_login_entry.pack()
-        Label(login_screen, text="").pack()
-
-        Button(login_screen, text="Login", width=10, height=1, command=self.login_verify).pack()
-
-    def main_account_screen(self):
-        global main_screen
-        main_screen = Tk()
-        main_screen.geometry("300x250")
-        main_screen.title("Fabbrica FePa")
-        Button(text="Login", height="2", width="30", command=self.login).pack()
-        Label(text="").pack()
-
-        main_screen.mainloop()
-
-    def delete_user_not_found_screen(self):
-        user_not_found_screen.destroy()
-
-    def delete_password_not_recognised(self):
-        password_not_recog_screen.destroy()
-
-    def delete_login_success(self):
-        login_success_screen.destroy()
+    def password_not_recognized(self):
+        layout = [
+            [sg.Text("Invalid Password")],
+            [sg.Button("OK", size=(10, 1))]
+        ]
+        window = sg.Window("Fail", layout, size=(150, 100))
+        event, _ = window.read()
+        window.close()
 
     def user_not_found(self):
-        global user_not_found_screen
-        user_not_found_screen = Toplevel(login_screen)
-        user_not_found_screen.title("Fail")
-        user_not_found_screen.geometry("150x100")
-        Label(user_not_found_screen, text="Utente non trovato").pack()
-        Button(user_not_found_screen, text="OK", command=self.delete_user_not_found_screen).pack()
-
-    def password_not_recognised(self):
-        global password_not_recog_screen
-        password_not_recog_screen = Toplevel(login_screen)
-        password_not_recog_screen.title("Fail")
-        password_not_recog_screen.geometry("150x100")
-        Label(password_not_recog_screen, text="Invalid Password ").pack()
-        Button(password_not_recog_screen, text="OK", command=self.delete_password_not_recognised).pack()
+        layout = [
+            [sg.Text("Utente non trovato")],
+            [sg.Button("OK", size=(10, 1))]
+        ]
+        window = sg.Window("Fail", layout, size=(150, 100))
+        event, _ = window.read()
+        window.close()
 
     def login_success(self):
-        global login_success_screen
-        login_success_screen = Toplevel(login_screen)
-        login_success_screen.title("Success")
-        login_success_screen.geometry("150x100")
-        Label(login_success_screen, text="Login Success").pack()
-        Button(login_success_screen, text="OK", command=self.delete_login_success).pack()
+        layout = [
+            [sg.Text("Login Success")],
+            [sg.Button("OK", size=(10, 1))]
+        ]
+        window = sg.Window("Success", layout, size=(150, 100))
+        event, _ = window.read()
+        window.close()
 
 
-user_service = UserService()
-user_service.main_account_screen()
+def main_account_screen():
+    layout = [
+        [sg.Text("Fabbrica FePa")],
+        [sg.Button("Login", size=(10, 1))]
+    ]
+    window = sg.Window("Main Account Screen", layout)
+    event, _ = window.read()
+    window.close()
+    if event == "Login":
+        login_screen()
+
+
+def login_screen():
+    layout = [
+        [sg.Text("Inserisci nome e password")],
+        [sg.Input(key='-USERNAME-')],
+        [sg.Input(key='-PASSWORD-', password_char='*')],
+        [sg.Button("Login", size=(10, 1))]
+    ]
+    window = sg.Window("Login", layout)
+    event, values = window.read()
+    window.close()
+    if event == "Login":
+        username = values['-USERNAME-']
+        password = values['-PASSWORD-']
+        user_service = UserService()
+        user_service.login_verify(username, password)
+
+
+if __name__ == '__main__':
+    main_account_screen()

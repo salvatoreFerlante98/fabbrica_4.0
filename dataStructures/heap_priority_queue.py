@@ -100,7 +100,7 @@ class HeapPriorityQueue(PriorityQueueBase):
         if self.is_empty():
             raise Empty('La coda è vuota')
         item = self._data[0]
-        return (item._key, item._value)
+        return (item._key, item.value)
 
     def remove_min(self):
         """
@@ -113,4 +113,4 @@ class HeapPriorityQueue(PriorityQueueBase):
         self.swap(0, len(self._data) - 1)  # mette l'item con prio max alla fine
         item = self._data.pop()
         self._downhead(0)  # sistema la coda in base alla key
-        return (item._key, item._value)
+        return (item._key, item.value)

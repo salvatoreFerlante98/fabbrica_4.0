@@ -46,7 +46,7 @@ class UnsortedPriorityQueue(PriorityQueueBase):
         """
         p = self._find_min()
         item = p.element()
-        return (item._key, item._value)
+        return (item._key, item.value)
 
     def remove_min(self):
         """
@@ -54,4 +54,4 @@ class UnsortedPriorityQueue(PriorityQueueBase):
         """
         p = self._find_min()
         item = self._data.delete(p)
-        return (item._key, item._value)
+        return (item._key, item.value)

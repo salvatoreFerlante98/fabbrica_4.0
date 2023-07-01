@@ -38,7 +38,7 @@ class ProbeHashMap(HashMapBase):
         found, s = self._find_slot(j, key)
         if not found:
             raise KeyError('Key Error: ' + repr(key))
-        return self._table[s]._value
+        return self._table[s].value
 
     def _bucket_setitem(self, j, key, value):
         """
@@ -49,7 +49,7 @@ class ProbeHashMap(HashMapBase):
             self._table[s] = self._Item(key, value)  # inserisce un nuovo elemento
             self._n += 1  # incrementa il numero di elementi contenuti nella tabella
         else:
-            self._table[s]._value = value  # sovrascrive quello esistente
+            self._table[s].value = value  # sovrascrive quello esistente
 
     def _bucket_delitem(self, j, key):
         """

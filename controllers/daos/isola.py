@@ -64,7 +64,8 @@ class Isola:
     def get_status_macchinari(self):
         stati = []
         for macchinario in self._macchinari:
-            stati + macchinario.get_stato()
+            stati.append(macchinario.get_stato())
+        return stati
 
     def opera_macchinario(self):
         if self._macchinari.last().get_stato() == 'On':

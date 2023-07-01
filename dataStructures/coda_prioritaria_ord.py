@@ -41,7 +41,7 @@ class SortedPriorityQueue(PriorityQueueBase):
             raise Empty('La coda è vuota')
         p = self._data.first()
         item = p.element()
-        return (item._key, item._value)
+        return (item._key, item.value)
 
     def remove_min(self):
         """
@@ -50,4 +50,4 @@ class SortedPriorityQueue(PriorityQueueBase):
         if self.is_empty():
             raise Empty('La coda è vuota')
         item = self._data.delete(self._data.first())
-        return (item._key, item._value)
+        return (item._key, item.value)
