@@ -6,7 +6,6 @@ from services.StorageService import StorageService
 from controllers.userController import UserController
 from controllers.IslandsController import IslandsController
 from controllers.StorageController import StorageController
-from CronJob import Cronjob
 
 
 class UserService:
@@ -17,13 +16,26 @@ class UserService:
         self.island_controller = island_controller
         self.storage_controller = storage_controller
         self.user_controller = user_controller
+
         self.isola_punte_service = IslandService(self.island_controller.isole['punte'],
-                                                 self.storage_controller['metallo'])
+                                                 self.storage_controller['metallo'],
+                                                 self.storage_controller['punte'])
+
         self.isola_tappi_service = IslandService(self.island_controller.isole['tappi'],
-                                                 self.storage_controller['plastica'])
+                                                 self.storage_controller['plastica'],
+                                                 self.storage_controller['tappi'])
+
         self.isola_astucci_service = IslandService(self.island_controller.isole['astucci'],
-                                                   self.storage_controller['plastica'])
-        self.admin_service = AdminService(self.user_controller, self.island_controller, self.storage_controller)
+                                                   self.storage_controller['plastica'],
+                                                   self.storage_controller['astucci'])
+
+        self.isola_penne_service = IslandService(self.island_controller.isole['penne'],
+                                                 [self.storage_controller['punte'],
+                                                  self.storage_controller['tappi'],
+                                                  self.storage_controller['astucci'],
+                                                  self.storage_controller['cartucce']],
+                                                 self.storage_controller['penne'])
+        self.admin_service = AdminService(self.user_controller, self.island_controller, self.storage_controller, self)
         self.user_controller.add_user('admin', 'nimda', 'admin')
 
     def login_verify(self, username, password):
@@ -46,11 +58,13 @@ class UserService:
                     self.isola_tappi_service.run()
                 elif role == 'astucci':
                     self.isola_astucci_service.run()
+                elif role == 'penne':
+                    self.isola_penne_service.run()
                 elif 'centro logistico' in role:
                     if role.split()[1] == 'ufficio':
-                        HRService().run()  # Call 'run' method on 'HRService' instance
+                        HRService(self.user_controller).run()  # Call 'run' method on 'HRService' instance
                     else:
-                        StorageService().run()  # Call 'run' method on 'StorageService' instance
+                        StorageService(self.storage_controller).run()
             else:
                 self.password_not_recognized()
         except KeyError:

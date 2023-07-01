@@ -32,3 +32,6 @@ class Richiesta:
         Restituisce la quantità della richiesta.
         """
         return self.quantita
+
+    def __lt__(self, other):
+        return self.quantita < other.quantita

@@ -3,24 +3,43 @@ from controllers.userController import UserController
 from controllers.IslandsController import IslandsController
 from services.IslandsService import IslandService
 from controllers.StorageController import StorageController
-
+from services.HRService import HRService
+from services.StorageService import StorageService
 
 class AdminService:
 
-    def __init__(self, user_controller: UserController, island_controller: IslandsController,
-                 storage_controller: StorageController):
+    def __init__(self, user_controller: UserController,
+                 island_controller: IslandsController,
+                 storage_controller: StorageController,
+                 user_service):
         self.user_controller = user_controller
         self.island_controller = island_controller
         self.storage_controller = storage_controller
+        self.user_service = user_service
+
         self.isola_punte_service = IslandService(self.island_controller.isole['punte'],
-                                                 self.storage_controller['metallo'])
+                                                 self.storage_controller['metallo'],
+                                                 self.storage_controller['punte'])
+
         self.isola_tappi_service = IslandService(self.island_controller.isole['tappi'],
-                                                 self.storage_controller['plastica'])
+                                                 self.storage_controller['plastica'],
+                                                 self.storage_controller['tappi'])
+
         self.isola_astucci_service = IslandService(self.island_controller.isole['astucci'],
-                                                   self.storage_controller['plastica'])
+                                                   self.storage_controller['plastica'],
+                                                 self.storage_controller['astucci'])
+
         self.isola_penne_service = IslandService(self.island_controller.isole['penne'],
-                                                 [self.storage_controller['punte'], self.storage_controller['tappi'],
-                                                  self.storage_controller['astucci']])
+                                                 [self.storage_controller['punte'],
+                                                  self.storage_controller['tappi'],
+                                                  self.storage_controller['astucci'],
+                                                  self.storage_controller['cartucce']],
+                                                 self.storage_controller['penne'])
+        self._isole = []
+        self._macchinari = []
+        self.aggiorna_liste()
+
+    def aggiorna_liste(self):
         self._isole = []
         self._macchinari = []
         for isola in self.island_controller.isole:
@@ -39,6 +58,7 @@ class AdminService:
         layout = [
             [sg.Text("Lista Utenti", background_color="gray", font=("Calibri", 13))],
             [sg.Listbox(user_list, size=(30, 6))],
+            [sg.Button("Edit_Users")],
             [sg.Button("Indietro")]
         ]
 
@@ -50,10 +70,15 @@ class AdminService:
             if event == sg.WINDOW_CLOSED or event == "Indietro":
                 break
 
+            if event == "Edit_Users":
+                HRService(self.user_controller).run()
+
+            window.refresh()
+
         window.close()
 
     def view_machines_in_progress(self):
-
+        self.aggiorna_liste()
         layout = [
             [sg.Text("Macchinari in Lavorazione", background_color="gray", font=("Calibri", 13))],
 
@@ -80,6 +105,7 @@ class AdminService:
 
         while True:
             event, values = window.read()
+            self.aggiorna_liste()
 
             if event == sg.WINDOW_CLOSED or event == "Indietro":
                 break
@@ -94,6 +120,7 @@ class AdminService:
                     self.isola_astucci_service.run()
                 if isola == "penne":
                     self.isola_penne_service.run()
+            window.refresh()
 
 
         window.close()
@@ -103,6 +130,7 @@ class AdminService:
             [sg.Text("Scegli un'opzione", background_color="gray", size=(30, 2), font=("Calibri", 13))],
             [sg.Button("Visualizza Lista Utenti", size=(30, 2))],
             [sg.Button("Visualizza Macchinari in Lavorazione", size=(30, 2))],
+            [sg.Button("Visualizza stato magazzino", size=(30, 2))],
             [sg.Button("Esci")]
         ]
 
@@ -110,8 +138,10 @@ class AdminService:
 
         while True:
             event, values = window.read()
+            self.aggiorna_liste()
 
             if event == sg.WINDOW_CLOSED or event == "Esci":
+                self.user_service.run()
                 break
 
             if event == "Visualizza Lista Utenti":
@@ -120,4 +150,8 @@ class AdminService:
             if event == "Visualizza Macchinari in Lavorazione":
                 self.view_machines_in_progress()
 
+            if event == "Visualizza stato magazzino":
+                StorageService(self.storage_controller).run()
+
+            window.refresh()
         window.close()

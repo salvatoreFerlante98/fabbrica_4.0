@@ -1,6 +1,6 @@
-from empty import Empty
-from PriorityQueueBase import PriorityQueueBase
-from PositionalList import PositionalList
+from data_structures.empty import Empty
+from data_structures.PriorityQueueBase import PriorityQueueBase
+from data_structures.PositionalList import PositionalList
 
 
 class UnsortedPriorityQueue(PriorityQueueBase):
@@ -46,7 +46,7 @@ class UnsortedPriorityQueue(PriorityQueueBase):
         """
         p = self._find_min()
         item = p.element()
-        return (item._key, item.value)
+        return item
 
     def remove_min(self):
         """
@@ -54,7 +54,7 @@ class UnsortedPriorityQueue(PriorityQueueBase):
         """
         p = self._find_min()
         item = self._data.delete(p)
-        return (item._key, item.value)
+        return item
 
     def _find_max(self):
         """
@@ -76,7 +76,7 @@ class UnsortedPriorityQueue(PriorityQueueBase):
         """
         p = self._find_max()
         item = p.element()
-        return (item._key, item.value)
+        return item
 
     def remove_max(self):
         """
@@ -84,4 +84,4 @@ class UnsortedPriorityQueue(PriorityQueueBase):
         """
         p = self._find_max()
         item = self._data.delete(p)
-        return (item._key, item.value)
+        return item._key

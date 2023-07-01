@@ -113,4 +113,4 @@ class HeapPriorityQueue(PriorityQueueBase):
         self.swap(0, len(self._data) - 1)  # mette l'item con prio max alla fine
         item = self._data.pop()
         self._downhead(0)  # sistema la coda in base alla key
-        return (item._key, item.value)
+        return item._value

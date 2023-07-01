@@ -3,107 +3,99 @@ from controllers.userController import UserController
 
 
 class HRService:
-    user_cont = UserController()
+
+    def __init__(self, user_controller: UserController):
+        self.user_controller = user_controller
 
     def delete_user(self, username):
         try:
-            self.user_cont.del_user(username)
+            self.user_controller.del_user(username)
             return True
         except KeyError:
             return False
 
     def register_user(self, username, password, role):
-        self.user_cont.add_user(username, password, role)
+        self.user_controller.add_user(username, password, role)
         return True
 
+    def register(self):
+        layout = [
+            [sg.Text("Compilare i seguenti campi", background_color="gray")],
+            [sg.Text("Username * "), sg.Input(key="-USERNAME-")],
+            [sg.Text("Password * "), sg.Input(key="-PASSWORD-", password_char="*")],
+            [sg.Text("Ruolo * "), sg.Input(key="-ROLE-")],
+            [sg.Button("Registra Utente", button_color="green"), sg.Button("Indietro")]
+        ]
 
-def register():
-    layout = [
-        [sg.Text("Compilare i seguenti campi", background_color="gray")],
-        [sg.Text("Username * "), sg.Input(key="-USERNAME-")],
-        [sg.Text("Password * "), sg.Input(key="-PASSWORD-", password_char="*")],
-        [sg.Text("Ruolo * "), sg.Input(key="-ROLE-")],
-        [sg.Button("Registra Utente", button_color="green"), sg.Button("Indietro")]
-    ]
+        window = sg.Window("Registra nuovo utente", layout)
 
-    window = sg.Window("Registra nuovo utente", layout)
+        while True:
+            event, values = window.read()
 
-    while True:
-        event, values = window.read()
+            if event == sg.WINDOW_CLOSED or event == "Indietro":
+                break
 
-        if event == sg.WINDOW_CLOSED or event == "Indietro":
-            break
+            if event == "Registra Utente":
+                username = values["-USERNAME-"]
+                password = values["-PASSWORD-"]
+                role = values["-ROLE-"]
+                success = self.register_user(username, password, role)
+                if success:
+                    sg.popup("Registrazione effettuata con successo")
+                else:
+                    sg.popup("Errore durante la registrazione")
 
-        if event == "Registra Utente":
-            username = values["-USERNAME-"]
-            password = values["-PASSWORD-"]
-            role = values["-ROLE-"]
+                break
 
-            hr_service = HRService()
-            success = hr_service.register_user(username, password, role)
-            if success:
-                sg.popup("Registrazione effettuata con successo")
-            else:
-                sg.popup("Errore durante la registrazione")
+        window.close()
 
-            break
+    def delete(self):
+        layout = [
+            [sg.Text("Compilare i seguenti campi", background_color="gray")],
+            [sg.Text("Username * "), sg.Input(key="-USERNAME-")],
+            [sg.Button("Elimina Utente", button_color="green"), sg.Button("Indietro")]
+        ]
 
-    window.close()
+        window = sg.Window("Elimina utente", layout)
 
+        while True:
+            event, values = window.read()
 
-def delete():
-    layout = [
-        [sg.Text("Compilare i seguenti campi", background_color="gray")],
-        [sg.Text("Username * "), sg.Input(key="-USERNAME-")],
-        [sg.Button("Elimina Utente", button_color="green"), sg.Button("Indietro")]
-    ]
+            if event == sg.WINDOW_CLOSED or event == "Indietro":
+                break
 
-    window = sg.Window("Elimina utente", layout)
+            if event == "Elimina Utente":
+                username = values["-USERNAME-"]
+                success = self.delete_user(username)
+                if success:
+                    sg.popup("Eliminazione effettuata con successo")
+                else:
+                    sg.popup("Utente non trovato")
 
-    while True:
-        event, values = window.read()
+                break
 
-        if event == sg.WINDOW_CLOSED or event == "Indietro":
-            break
+        window.close()
 
-        if event == "Elimina Utente":
-            username = values["-USERNAME-"]
+    def run(self):
+        layout = [
+            [sg.Text("Scegli un'opzione", background_color="gray", size=(30, 2), font=("Calibri", 13))],
+            [sg.Button("Crea Utente", size=(30, 2))],
+            [sg.Button("Elimina Utente", size=(30, 2))],
+            [sg.Button("Esci")]
+        ]
 
-            hr_service = HRService()
-            success = hr_service.delete_user(username)
-            if success:
-                sg.popup("Eliminazione effettuata con successo")
-            else:
-                sg.popup("Utente non trovato")
+        window = sg.Window("Risorse Umane", layout)
 
-            break
+        while True:
+            event, values = window.read()
 
-    window.close()
+            if event == sg.WINDOW_CLOSED or event == "Esci":
+                break
 
+            if event == "Crea Utente":
+                self.register()
 
-def main_hr_screen():
-    layout = [
-        [sg.Text("Scegli un'opzione", background_color="gray", size=(30, 2), font=("Calibri", 13))],
-        [sg.Button("Crea Utente", size=(30, 2))],
-        [sg.Button("Elimina Utente", size=(30, 2))],
-        [sg.Button("Esci")]
-    ]
+            if event == "Elimina Utente":
+                self.delete()
 
-    window = sg.Window("Risorse Umane", layout)
-
-    while True:
-        event, values = window.read()
-
-        if event == sg.WINDOW_CLOSED or event == "Esci":
-            break
-
-        if event == "Crea Utente":
-            register()
-
-        if event == "Elimina Utente":
-            delete()
-
-    window.close()
-
-
-main_hr_screen()
+        window.close()

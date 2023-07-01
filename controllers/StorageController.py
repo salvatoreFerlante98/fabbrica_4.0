@@ -49,7 +49,7 @@ class StorageController:
         else:
             richiesta = self._richieste.remove_min()
             quantita = self._storage_map[richiesta.get_tipo()] + richiesta.get_quantita()
-            self._storage_map[richiesta.get_tipo()] = quantita
+            self._storage_map.get_magazzino(richiesta.get_tipo()).value = quantita
             return True
 
     def __getitem__(self, item):

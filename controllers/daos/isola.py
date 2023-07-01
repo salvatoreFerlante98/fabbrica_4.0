@@ -39,9 +39,9 @@ class Isola:
         """
         macchinari_on = self._macchinari_accesi()
         if macchinari_on < richiesta:
-            self._accendi_macchinari(richiesta -macchinari_on)
+            self._accendi_macchinari(richiesta - macchinari_on)
         elif macchinari_on > richiesta:
-            self._spegni_macchinari(macchinari_on- richiesta)
+            self._spegni_macchinari(macchinari_on - richiesta)
 
     def _macchinari_accesi(self):
         """
@@ -64,7 +64,6 @@ class Isola:
             stato = macchinario.get_stato()
             if stato == 'Off':
                 macchinario.accendi_macchinario()
-                self._macchinari.rotate()
                 i += 1
             self._macchinari.rotate()
 
