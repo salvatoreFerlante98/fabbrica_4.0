@@ -4,10 +4,11 @@ from controllers.StorageController import StorageController
 class StorageService:
     storage_cont = StorageController()
 
-    def __init__(self, storage_controller: StorageController):
+    def __init__(self, storage_controller: StorageController, user_service):
         """
         Inizializza il servizio di gestione del magazzino utilizzando il controller di storage specificato.
         """
+        self.user_service = user_service
         self.storage_controller = storage_controller
         self.plastica = self.storage_controller['plastica'].value
         self.metallo = self.storage_controller['metallo'].value
@@ -63,6 +64,7 @@ class StorageService:
         while True:
             event, _ = window.read()
             if event == PySimpleGUI.WINDOW_CLOSED:
+                self.user_service.run()
                 break
             elif event == "Visualizza Magazzino":
                 self.create_storage_interface()

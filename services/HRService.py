@@ -2,10 +2,11 @@ import PySimpleGUI as sg
 from controllers.userController import UserController
 
 class HRService:
-    def __init__(self, user_controller: UserController):
+    def __init__(self, user_controller: UserController, user_service):
         """
         Inizializza il servizio HR con il controller degli utenti.
         """
+        self.user_service = user_service
         self.user_controller = user_controller
 
     def delete_user(self, username):
@@ -109,6 +110,7 @@ class HRService:
             event, values = window.read()
 
             if event == sg.WINDOW_CLOSED or event == "Esci":
+                self.user_service.run()
                 break
 
             if event == "Crea Utente":

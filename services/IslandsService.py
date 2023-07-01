@@ -2,10 +2,11 @@ import PySimpleGUI as sg
 from controllers.daos.isola import Isola
 
 class IslandService:
-    def __init__(self, island: Isola, magazzino_materiale, magazzino_produzione):
+    def __init__(self, island: Isola, magazzino_materiale, magazzino_produzione, user_service):
         """
         Inizializza il servizio per l'isola specificata con i magazzini di materiale e produzione.
         """
+        self.user_service = user_service
         self.island = island
         self.magazzino_materiale = magazzino_materiale
         self.magazzino_produzione = magazzino_produzione
@@ -28,6 +29,7 @@ class IslandService:
         while True:
             event, values = window.read()
             if event == sg.WINDOW_CLOSED:
+                self.user_service.run()
                 break
             elif event == "Opera macchinario":
                 if 'On' in self.island.get_status_macchinari():
