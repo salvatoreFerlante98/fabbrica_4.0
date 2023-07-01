@@ -1,4 +1,4 @@
-import PySimpleGUI as sg
+import PySimpleGUI
 from controllers.StorageController import StorageController
 
 
@@ -27,30 +27,30 @@ class StorageService:
     def create_storage_interface(self):
         self.aggiorna_liste()
         layout = [
-            [sg.Text('Plastica: ' + str(self.plastica), background_color="gray", size=(30, 1))],
-            [sg.Text('Metallo: ' + str(self.metallo), background_color="gray", size=(30, 1))],
-            [sg.Text('Cartucce: ' + str(self.cartucce), background_color="gray", size=(30, 1))],
-            [sg.Text('Punte: ' + str(self.punte), background_color="gray", size=(30, 1))],
-            [sg.Text('Tappi: ' + str(self.tappi), background_color="gray", size=(30, 1))],
-            [sg.Text('Astucci: ' + str(self.astucci), background_color="gray", size=(30, 1))],
-            [sg.Text('Penne: ' + str(self.penne), background_color="gray", size=(30, 1))],
+            [PySimpleGUI.Text('Plastica: ' + str(self.plastica), background_color="gray", size=(30, 1))],
+            [PySimpleGUI.Text('Metallo: ' + str(self.metallo), background_color="gray", size=(30, 1))],
+            [PySimpleGUI.Text('Cartucce: ' + str(self.cartucce), background_color="gray", size=(30, 1))],
+            [PySimpleGUI.Text('Punte: ' + str(self.punte), background_color="gray", size=(30, 1))],
+            [PySimpleGUI.Text('Tappi: ' + str(self.tappi), background_color="gray", size=(30, 1))],
+            [PySimpleGUI.Text('Astucci: ' + str(self.astucci), background_color="gray", size=(30, 1))],
+            [PySimpleGUI.Text('Penne: ' + str(self.penne), background_color="gray", size=(30, 1))],
         ]
 
-        window = sg.Window("Magazzino", layout)
+        window = PySimpleGUI.Window("Magazzino", layout)
         event, _ = window.read()
         window.close()
 
     def run(self):
         layout = [
-            [sg.Text("Scegli un'opzione", background_color="gray", size=(30, 1))],
-            [sg.Button("Visualizza Magazzino", size=(30, 2))],
-            [sg.Button("Rifornisci", size=(30, 2))]
+            [PySimpleGUI.Text("Scegli un'opzione", background_color="gray", size=(30, 1))],
+            [PySimpleGUI.Button("Visualizza Magazzino", size=(30, 2))],
+            [PySimpleGUI.Button("Rifornisci", size=(30, 2))]
         ]
 
-        window = sg.Window("Centro Logistico", layout)
+        window = PySimpleGUI.Window("Centro Logistico", layout)
         while True:
             event, _ = window.read()
-            if event == sg.WINDOW_CLOSED:
+            if event == PySimpleGUI.WINDOW_CLOSED:
                 break
             elif event == "Visualizza Magazzino":
                 self.create_storage_interface()
@@ -62,6 +62,6 @@ class StorageService:
     def rifornimento_result_screen(self):
         result = self.storage_controller.esegui_richiesta()
         if result is True:
-            sg.popup("Rifornimento effettuato con successo", title="Successo")
+            PySimpleGUI.popup("Rifornimento effettuato con successo", title="Successo")
         else:
-            sg.popup("Rifornimento non effettuato", title="Errore")
+            PySimpleGUI.popup("Rifornimento non effettuato", title="Errore")

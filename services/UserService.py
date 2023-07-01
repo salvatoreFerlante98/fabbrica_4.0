@@ -47,7 +47,7 @@ class UserService:
                 self.login_success()
                 role = str(user.get_role())
                 if role == 'admin':
-                    self.admin_service.run()  # Call 'run' method on 'admin_service' instance
+                    self.admin_service.run()
                 elif role == 'responsabile_macchinari':
                     self.isola_punte_service.run()
                     self.isola_tappi_service.run()
@@ -60,11 +60,12 @@ class UserService:
                     self.isola_astucci_service.run()
                 elif role == 'penne':
                     self.isola_penne_service.run()
-                elif 'centro logistico' in role:
-                    if role.split()[1] == 'ufficio':
-                        HRService(self.user_controller).run()  # Call 'run' method on 'HRService' instance
-                    else:
-                        StorageService(self.storage_controller).run()
+                elif 'risorse_umane' in role:
+                    HRService(self.user_controller).run()
+                elif 'responsabile_logistica' == role:
+                    StorageService(self.storage_controller).run()
+                else:
+                    self.user_without_permission()
             else:
                 self.password_not_recognized()
         except KeyError:
@@ -84,6 +85,16 @@ class UserService:
     def user_not_found():
         layout = [
             [sg.Text("Utente non trovato")],
+            [sg.Button("OK", size=(10, 1))]
+        ]
+        window = sg.Window("Fail", layout, size=(150, 100))
+        event, _ = window.read()
+        window.close()
+
+    @staticmethod
+    def user_without_permission():
+        layout = [
+            [sg.Text("Questo utente non ha i permessi per operare")],
             [sg.Button("OK", size=(10, 1))]
         ]
         window = sg.Window("Fail", layout, size=(150, 100))
