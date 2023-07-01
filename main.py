@@ -1,7 +1,7 @@
 import threading
 from controllers.userController import UserController
-from controllers.islands_controller import IslandsController
-from controllers.storage_controller import StorageController
+from controllers.IslandsController import IslandsController
+from controllers.StorageController import StorageController
 from CronJob import Cronjob
 from Services.UserService import UserService
 

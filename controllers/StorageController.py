@@ -52,19 +52,6 @@ class StorageController:
             self._storage_map[richiesta.get_tipo()] = quantita
             return True
 
-    def spedisci_penne(self, quantita):
-        """
-        Spedisce una determinata quantità di penne.
-        Verifica se il magazzino ha abbastanza penne disponibili per la spedizione.
-        Restituisce True se la spedizione viene effettuata con successo, altrimenti False.
-        """
-        tipo = 'penne'
-        if self._storage_map[tipo] - quantita < 0:
-            return False
-        else:
-            self._storage_map[tipo] -= quantita
-            return True
-
     def __getitem__(self, item):
         """
         Restituisce la quantità del tipo specificato nel magazzino.

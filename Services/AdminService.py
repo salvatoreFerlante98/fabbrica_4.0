@@ -4,82 +4,86 @@ from controllers.IslandsController import IslandsController
 
 
 class AdminService:
-    user_cont = UserController()
-    machine_cont = IslandsController()
+
+    def __init__(self, user_controller: UserController, island_controller: IslandsController):
+        self.user_controller = user_controller
+        self.island_controller = island_controller
 
     def get_user_list(self):
-        return str(self.user_cont)
+        user_list = []
+        for user in self.user_controller:
+            user_list.append(user)
+        return user_list
 
-    def get_machines_in_progress(self):
-        for isola in self.machine_cont.isole:
-            return isola.get_status_macchinari()
+    def view_user_list(self):
+        user_list = self.get_user_list()
 
+        layout = [
+            [sg.Text("Lista Utenti", background_color="gray", font=("Calibri", 13))],
+            [sg.Listbox(user_list, size=(30, 6))],
+            [sg.Button("Indietro")]
+        ]
 
-def view_user_list():
-    admin_service = AdminService()
-    user_list = admin_service.get_user_list()
+        window = sg.Window("Admin - Lista Utenti", layout)
 
-    layout = [
-        [sg.Text("Lista Utenti", background_color="gray", font=("Calibri", 13))],
-        [sg.Listbox(user_list, size=(30, 6))],
-        [sg.Button("Indietro")]
-    ]
+        while True:
+            event, values = window.read()
 
-    window = sg.Window("Admin - Lista Utenti", layout)
+            if event == sg.WINDOW_CLOSED or event == "Indietro":
+                break
 
-    while True:
-        event, values = window.read()
+        window.close()
 
-        if event == sg.WINDOW_CLOSED or event == "Indietro":
-            break
+    def view_machines_in_progress(self):
+        isole = []
+        macchinari = []
+        for isola in self.island_controller.isole:
+            isole.append(isola.get_nome())
+            macchinari.append(isola.get_status_macchinari())
 
-    window.close()
+        layout = [
+            [sg.Text("Macchinari in Lavorazione", background_color="gray", font=("Calibri", 13))],
+            [sg.Text(isole[0], size=(30, 6))],
+            [sg.Listbox(macchinari[0], size=(30, 6))],
+            [sg.Text(isole[1], size=(30, 6))],
+            [sg.Listbox(macchinari[1], size=(30, 6))],
+            [sg.Text(isole[2], size=(30, 6))],
+            [sg.Listbox(macchinari[2], size=(30, 6))],
+            [sg.Text(isole[3], size=(30, 6))],
+            [sg.Listbox(macchinari[3], size=(30, 6))],
+            [sg.Button("Indietro")]
+        ]
 
+        window = sg.Window("Admin - Macchinari in Lavorazione", layout)
 
-def view_machines_in_progress():
-    admin_service = AdminService()
-    machines_in_progress = admin_service.get_machines_in_progress()
+        while True:
+            event, values = window.read()
 
-    layout = [
-        [sg.Text("Macchinari in Lavorazione", background_color="gray", font=("Calibri", 13))],
-        [sg.Listbox(machines_in_progress, size=(30, 6))],
-        [sg.Button("Indietro")]
-    ]
+            if event == sg.WINDOW_CLOSED or event == "Indietro":
+                break
 
-    window = sg.Window("Admin - Macchinari in Lavorazione", layout)
+        window.close()
 
-    while True:
-        event, values = window.read()
+    def run(self):
+        layout = [
+            [sg.Text("Scegli un'opzione", background_color="gray", size=(30, 2), font=("Calibri", 13))],
+            [sg.Button("Visualizza Lista Utenti", size=(30, 2))],
+            [sg.Button("Visualizza Macchinari in Lavorazione", size=(30, 2))],
+            [sg.Button("Esci")]
+        ]
 
-        if event == sg.WINDOW_CLOSED or event == "Indietro":
-            break
+        window = sg.Window("Admin", layout)
 
-    window.close()
+        while True:
+            event, values = window.read()
 
+            if event == sg.WINDOW_CLOSED or event == "Esci":
+                break
 
-def main_admin_screen():
-    layout = [
-        [sg.Text("Scegli un'opzione", background_color="gray", size=(30, 2), font=("Calibri", 13))],
-        [sg.Button("Visualizza Lista Utenti", size=(30, 2))],
-        [sg.Button("Visualizza Macchinari in Lavorazione", size=(30, 2))],
-        [sg.Button("Esci")]
-    ]
+            if event == "Visualizza Lista Utenti":
+                self.view_user_list()
 
-    window = sg.Window("Admin", layout)
+            if event == "Visualizza Macchinari in Lavorazione":
+                self.view_machines_in_progress()
 
-    while True:
-        event, values = window.read()
-
-        if event == sg.WINDOW_CLOSED or event == "Esci":
-            break
-
-        if event == "Visualizza Lista Utenti":
-            view_user_list()
-
-        if event == "Visualizza Macchinari in Lavorazione":
-            view_machines_in_progress()
-
-    window.close()
-
-
-main_admin_screen()
+        window.close()
